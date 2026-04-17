@@ -163,9 +163,10 @@ function updateGoalProgress() {
 async function connectWallet() {
   if (!window.ethereum) { showToast(t("noMeta")); return; }
   try {
-    await switchToArc();
-    // Simple connect — works reliably on both desktop and mobile
+    // Step 1: connect wallet first (1 tap)
     await window.ethereum.request({ method: "eth_requestAccounts" });
+    // Step 2: switch network if needed (only triggers if wrong network)
+    await switchToArc();
     provider        = new ethers.BrowserProvider(window.ethereum);
     signer          = await provider.getSigner();
     userAddress     = await signer.getAddress();
