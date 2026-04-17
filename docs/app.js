@@ -163,35 +163,39 @@ function updateGoalProgress() {
 async function connectWallet() {
   if (!window.ethereum) { showToast(t("noMeta")); return; }
   try {
-    // Step 1: connect wallet first (1 tap)
     await window.ethereum.request({ method: "eth_requestAccounts" });
-    // Step 2: switch network if needed (only triggers if wrong network)
-    await switchToArc();
-    provider        = new ethers.BrowserProvider(window.ethereum);
-    signer          = await provider.getSigner();
-    userAddress     = await signer.getAddress();
-    pigSaveContract = new ethers.Contract(CONTRACT_ADDRESS, PIGSAVE_ABI, signer);
-
-    // Load saved goal
-    const saved = localStorage.getItem("pigsave_goal");
-    if (saved) purposeGoal = parseFloat(saved);
-
-    document.getElementById("connectSection").classList.add("hidden");
-    document.getElementById("appSection").classList.remove("hidden");
-    document.getElementById("walletAddr").textContent =
-      userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
-
-    await refreshData();
+    await initApp();
   } catch (err) {
     console.error(err);
     showToast(t("connectFail"));
   }
 }
 
+async function initApp() {
+  provider        = new ethers.BrowserProvider(window.ethereum);
+  signer          = await provider.getSigner();
+  userAddress     = await signer.getAddress();
+  pigSaveContract = new ethers.Contract(CONTRACT_ADDRESS, PIGSAVE_ABI, signer);
+
+  const saved = localStorage.getItem("pigsave_goal");
+  if (saved) purposeGoal = parseFloat(saved);
+
+  document.getElementById("connectSection").classList.add("hidden");
+  document.getElementById("appSection").classList.remove("hidden");
+  document.getElementById("walletAddr").textContent =
+    userAddress.slice(0, 6) + "..." + userAddress.slice(-4);
+
+  // Check network after UI shown — don't block connect flow
+  const chainId = await window.ethereum.request({ method: "eth_chainId" });
+  if (parseInt(chainId, 16) !== ARC_CHAIN_ID) {
+    showToast(t("needNetwork"));
+    await switchToArc();
+  }
+
+  await refreshData();
+}
+
 async function switchToArc() {
-  const current = await window.ethereum.request({ method: "eth_chainId" });
-  if (parseInt(current, 16) === ARC_CHAIN_ID) return;
-  showToast(t("needNetwork"));
   try {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
@@ -413,5 +417,11 @@ if (window.ethereum) {
   window.ethereum.on("chainChanged",    () => location.reload());
 }
 
-// Apply default language on page load
-document.addEventListener("DOMContentLoaded", () => setLang("en"));
+// On page load: apply language + auto-connect if already permitted
+document.addEventListener("DOMContentLoaded", async () => {
+  setLang("en");
+  if (window.ethereum) {
+    const accounts = await window.ethereum.request({ method: "eth_accounts" });
+    if (accounts.length > 0) await initApp();
+  }
+});
