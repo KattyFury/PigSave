@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.arc.network)",
+      "WebFetch(domain:thirdweb.com)",
+      "WebFetch(domain:faucet.circle.com)",
+      "WebFetch(domain:testnet.arcscan.app)",
+      "WebFetch(domain:developers.circle.com)"
+    ]
+  }
+}
