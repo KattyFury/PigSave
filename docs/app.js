@@ -369,7 +369,9 @@ async function executeWithdraw() {
     updateStats();
     setPigScale("happy");
     showToast(t("withdrawOk"));
-    if (currentMode === "purpose") updateGoalProgress();
+    if (currentMode === "purpose") {
+      resetGoal(); // clear goal so user can set a new one
+    }
     setTimeout(() => setPigScale("normal"), 2500);
   } catch (err) {
     console.error(err);
