@@ -301,7 +301,7 @@ body {
   border-radius: 12px;
   padding: 10px 14px;
   font-family: 'Quicksand', sans-serif;
-  font-size: 15px;
+  font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
   font-weight: 600;
   color: #C44020;
   outline: none;
@@ -561,9 +561,28 @@ body {
   to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
 }
 
-/* ── Responsive ───────────────────────────────────────── */
-@media (max-width: 360px) {
-  .title { font-size: 30px; }
+/* ── Responsive / Mobile ──────────────────────────────── */
+@media (max-width: 480px) {
+  body { padding: 12px 12px 40px; }
+
+  .container { margin-top: 28px; }
+
+  .header { margin-bottom: 14px; }
+  .title { font-size: 28px; }
+  .subtitle { font-size: 13px; }
+
+  #appSection { gap: 10px; }
+
+  .stats { padding: 10px 18px; }
   .stat-value { font-size: 24px; }
-  .btn-deposit { font-size: 13px; padding: 13px 4px; }
+  .stat-label { font-size: 10px; }
+
+  .pig-wrap { height: 150px; width: 150px; }
+  .pig { width: 120px; height: 120px; }
+
+  .btn-deposit { font-size: 13px; padding: 12px 4px; }
+  .btn-break { padding: 14px; font-size: 15px; }
+
+  .connect-card { padding: 28px 20px; }
+  .connect-pig { width: 90px; height: 90px; }
 }
