@@ -13,7 +13,7 @@ const PIGSAVE_ABI = [
 // ── App State ─────────────────────────────────────────────
 let provider, signer, userAddress;
 let pigSaveContract;
-let currentLang = "vi";
+let currentLang = "en";
 let currentMode = "normal";    // "normal" | "purpose"
 let purposeGoal = 0;           // in USDC (from localStorage)
 let userData = { balance: 0n, depositCount: 0n, lastDepositTime: 0n, streak: 0n };
