@@ -565,7 +565,7 @@ body {
 @media (max-width: 480px) {
   body { padding: 12px 12px 40px; }
 
-  .container { margin-top: 28px; }
+  .container { margin-top: 44px; }
 
   .header { margin-bottom: 14px; }
   .title { font-size: 28px; }
