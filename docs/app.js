@@ -390,7 +390,13 @@ function showToast(msg) {
   toastTimer = setTimeout(() => el.classList.add("hidden"), 3200);
 }
 
-function disconnectWallet() {
+async function disconnectWallet() {
+  try {
+    await window.ethereum.request({
+      method: "wallet_revokePermissions",
+      params: [{ eth_accounts: {} }],
+    });
+  } catch (_) {}
   provider = null; signer = null; userAddress = null; pigSaveContract = null;
   userData = { balance: 0n, depositCount: 0n, lastDepositTime: 0n, streak: 0n };
   document.getElementById("appSection").classList.add("hidden");
