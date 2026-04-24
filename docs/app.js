@@ -29,9 +29,9 @@ let userData = {
 
 // ── Rank System (3 tiers, balance-based, no icon in label) ─
 function getRank(balanceUSD) {
-  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 2.0 };
-  if (balanceUSD  >= 100) return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.3 };
-  return                         { cls: "rank-piglet",      label: "Piglet",      scale: 1.0 };
+  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 2.0, prefix: "c" };
+  if (balanceUSD >= 100)  return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.4, prefix: "b" };
+  return                         { cls: "rank-piglet",      label: "Piglet",      scale: 1.0, prefix: "a" };
 }
 
 // ── Translations ───────────────────────────────────────────
@@ -238,7 +238,9 @@ async function refreshData() {
     document.getElementById("purposeProgress").classList.toggle("hidden",  isNormal);
 
     updateStats();
-    setPigVisual("normal");
+    // Start at scale 0 so the pig grows smoothly into view via CSS transition
+    document.getElementById("pigScale").style.transform = "scale(0)";
+    requestAnimationFrame(() => setPigVisual("normal"));
   } catch (err) {
     console.error("refreshData error:", err);
   }
@@ -286,13 +288,9 @@ function setPigVisual(state = "normal") {
 
   pigScale.style.transform = `scale(${rank.scale})`;
 
-  const imgs = {
-    normal:  "images/pig-normal.png",
-    happy:   "images/pig-happy.png",
-    sad:     "images/pig-sad.png",
-    deposit: "images/pig-deposit.png",
-  };
-  pig.src = imgs[state] ?? imgs.normal;
+  // a/b/c = piglet/golden/diamond · 1=normal 2=sad 3=happy 4=deposit
+  const stateNum = { normal: 1, sad: 2, happy: 3, deposit: 4 };
+  pig.src = `images/${rank.prefix}${stateNum[state] ?? 1}.png`;
 }
 
 function bouncePig() {
@@ -387,6 +385,7 @@ function tryWithdraw() {
       document.getElementById("modalBody").textContent  = t("earlyBody");
       document.getElementById("modalCount").textContent = t("earlyCount", count, left);
       setPigVisual("sad");
+      document.querySelector(".modal-pig").src = `images/${getRank(Number(ethers.formatUnits(userData.balance, 18))).prefix}2.png`;
       document.getElementById("modal").classList.remove("hidden");
     }
   } else {
@@ -401,6 +400,7 @@ function tryWithdraw() {
       document.getElementById("modalBody").textContent  = t("goalEarlyBody");
       document.getElementById("modalCount").textContent = t("goalEarlyCount", pct);
       setPigVisual("sad");
+      document.querySelector(".modal-pig").src = `images/${getRank(balUSD).prefix}2.png`;
       document.getElementById("modal").classList.remove("hidden");
     }
   }
