@@ -29,8 +29,8 @@ let userData = {
 
 // ── Rank System (3 tiers, balance-based, no icon in label) ─
 function getRank(balanceUSD) {
-  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 2.0, prefix: "c" };
-  if (balanceUSD >= 100)  return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.4, prefix: "b" };
+  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 1.6, prefix: "c" };
+  if (balanceUSD >= 100)  return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.3, prefix: "b" };
   return                         { cls: "rank-piglet",      label: "Piglet",      scale: 1.0, prefix: "a" };
 }
 

@@ -285,7 +285,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  height: 110px;
+  height: 125px;
   position: relative;
 }
 /* pig-wrap::before removed — no pink glow circle */
@@ -295,7 +295,7 @@ body {
   position: relative; z-index: 1;
 }
 .pig {
-  height: 85px; width: auto;
+  height: 119px; width: auto;
   object-fit: contain; display: block;
 }
 @keyframes bounce {
@@ -508,8 +508,8 @@ body {
 
   /* App screen */
   .screen-app { gap: 1.1rem; padding-top: 1.2rem; }
-  .pig        { height: 96px; }
-  .pig-wrap   { height: 124px; }
+  .pig        { height: 134px; }
+  .pig-wrap   { height: 140px; }
 
   .stat-big   { font-size: 2.5rem; }
 
