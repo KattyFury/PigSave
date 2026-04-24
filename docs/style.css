@@ -1,11 +1,10 @@
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html, body { height: 100%; overscroll-behavior: none; }
 
-/* ── Body: white background, no scroll ─────────────────── */
+/* ── Base ───────────────────────────────────────────────── */
 body {
-  font-family: 'Montserrat', system-ui, sans-serif;
+  font-family: 'Roboto', system-ui, sans-serif;
   font-weight: 400;
   background: #ffffff;
   color: #1C1C1C;
@@ -18,36 +17,49 @@ body {
 
 .hidden { display: none !important; }
 
-/* ── Container: top-aligned, centred horizontally ───────── */
+/* ── Container ──────────────────────────────────────────── */
 .container {
   width: 100%;
   max-width: 420px;
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0.75rem 1.5rem 1rem;
+  align-items: center;           /* images/badges stay centred */
+  /* safe-area-inset: handles iPhone X notch (top) + home bar (bottom) */
+  padding: calc(0.75rem + env(safe-area-inset-top, 0px))
+           1.25rem
+           calc(1rem   + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
 }
 
-/* ── Language Toggle ───────────────────────────────────── */
+/* Elements that should fill full width */
+.lang-toggle,
+.mode-select,
+.deposit-row,
+.progress-wrap,
+.goal-input,
+.screen {
+  width: 100%;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LANGUAGE TOGGLE — 3 equal buttons, full width
+══════════════════════════════════════════════════════════ */
 .lang-toggle {
   display: flex;
-  gap: 0.3rem;
-  margin-bottom: 0.8rem;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
   flex-shrink: 0;
 }
 
 .lang-btn {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.02em;
-  /* Fixed equal width so EN / VI / CN are all the same size */
-  width: 78px;
+  flex: 1;                        /* equal width */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  padding: 0.28rem 0;
   text-align: center;
-  padding: 0.25rem 0;
-  border: 1.5px solid #ddd;
+  border: 1.5px solid #E0E0E0;
   border-radius: 20px;
   background: transparent;
   color: #999;
@@ -59,34 +71,34 @@ body {
   color: #fff;
   border-color: transparent;
 }
-.lang-btn:hover:not(.active) {
-  border-color: #F3966F;
-  color: #F3966F;
-}
+.lang-btn:hover:not(.active) { border-color: #F3966F; color: #F3966F; }
 
-/* ── Screen base: TOP-aligned ───────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   SCREENS — top-aligned, stretch children
+══════════════════════════════════════════════════════════ */
 .screen {
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* top-aligned */
+  justify-content: flex-start;
   overflow: hidden;
 }
 
-.screen-connect { gap: 1.1rem;  padding-top: 1.8rem; }
-.screen-buy     { gap: 0.85rem; padding-top: 1rem;   }
-.screen-app     { gap: 0.75rem; padding-top: 0.5rem; }
+.screen-connect { gap: 0.9rem;  padding-top: 1.2rem; }
+.screen-buy     { gap: 0.6rem;  padding-top: 0.5rem; }
+.screen-app     { gap: 0.75rem; padding-top: 0.4rem; }
 
-/* ── Branding ───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   BRANDING
+══════════════════════════════════════════════════════════ */
 .brand { text-align: center; }
 
 .app-title {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 2.4rem;
-  /* gradient text */
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 2.6rem;
   background: linear-gradient(135deg, #F3966F, #E07840);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,9 +107,9 @@ body {
 }
 
 .app-title-sm {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 1.6rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1.7rem;
   background: linear-gradient(135deg, #F3966F, #E07840);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -106,86 +118,78 @@ body {
 }
 
 .app-sub {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.82rem;
   color: #aaa;
   margin-top: 0.2rem;
-  font-weight: 500;
 }
 
-/* ── Hero pig images ────────────────────────────────────── */
-.hero-pig {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-}
-
-.hero-pig-sm {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-}
+/* ── Hero pig ───────────────────────────────────────────── */
+.hero-pig    { width: 200px; height: 200px; object-fit: contain; }
+.hero-pig-sm { width: 160px; height: 160px; object-fit: contain; }
 
 /* ── Connect hint ───────────────────────────────────────── */
 .connect-hint {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
   color: #888;
   text-align: center;
-  max-width: 240px;
+  max-width: 260px;
   line-height: 1.5;
 }
 
-/* ── Primary button ─────────────────────────────────────── */
-/* Fredoka font, gradient background = the main decorative use */
+/* ══════════════════════════════════════════════════════════
+   PRIMARY BUTTON — 50% width, centred
+══════════════════════════════════════════════════════════ */
 .btn-primary {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 1.05rem;
-  padding: 0.7rem 2.4rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 60%;
+  padding: 0.8rem 0;
+  text-align: center;
   background: linear-gradient(135deg, #F3966F 0%, #F3CA94 100%);
   color: #fff;
   border: none;
-  border-radius: 50px;
+  border-radius: 14px;
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(243,150,111,0.35);
   transition: transform 0.15s, box-shadow 0.15s;
-  white-space: nowrap;
 }
 .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(243,150,111,0.45); }
 .btn-primary:active { transform: translateY(0); }
 .btn-primary:disabled { opacity: 0.5; cursor: default; transform: none; }
 
-/* ── Buy screen ─────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   BUY SCREEN
+══════════════════════════════════════════════════════════ */
 .buy-title {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 1.4rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
   color: #1C1C1C;
   text-align: center;
 }
 
+/* Mode toggle — 2 equal buttons, full width */
 .mode-select {
   display: flex;
-  gap: 0.3rem;
+  gap: 0.35rem;
+  width: 100%;
   background: #F5F5F5;
-  border-radius: 50px;
-  padding: 0.18rem;
-  /* Fixed width so both buttons are always equal — title won't jump */
-  width: 280px;
+  border-radius: 12px;
+  padding: 0.2rem;
 }
 
 .mode-select-btn {
-  font-family: 'Quicksand', sans-serif;
+  flex: 1;                        /* equal width, no jump */
+  font-family: 'Barlow', sans-serif;
   font-weight: 700;
-  font-size: 0.82rem;
-  /* flex: 1 makes both buttons exactly the same width */
-  flex: 1;
-  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  padding: 0.45rem 0;
   text-align: center;
   border: none;
-  border-radius: 50px;
+  border-radius: 10px;
   background: transparent;
   color: #999;
   cursor: pointer;
@@ -199,24 +203,25 @@ body {
   color: #fff;
 }
 
+/* Mode description — single element, text swapped by JS */
 .mode-desc {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.82rem;
   color: #888;
   text-align: center;
+  line-height: 1.4;
 }
 
+/* Goal input — full width */
 .goal-input {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px; /* prevents iOS zoom */
-  font-weight: 500;
-  padding: 0.5rem 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;               /* prevents iOS zoom */
+  padding: 0.55rem 1rem;
   border: 1.5px solid #E8E8E8;
   border-radius: 12px;
   background: #FAFAFA;
   color: #1C1C1C;
-  width: 210px;
+  width: 100%;
   text-align: center;
   outline: none;
   transition: border-color 0.2s;
@@ -224,30 +229,44 @@ body {
 .goal-input::placeholder { color: #bbb; }
 .goal-input:focus { border-color: #F3966F; }
 
-/* ── Main App: stats ─────────────────────────────────────── */
+/* Fixed-height box holding desc + goal input.
+   Height = desc (~20px) + gap (8px) + input (~44px) = ~72px.
+   When input is hidden the box stays 72px → button never jumps. */
+.mode-details {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════════════════════════ */
+
+/* Deposit count */
 .stats-center {
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
   flex-shrink: 0;
 }
-
 .stat-big {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 2rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
   color: #1C1C1C;
   line-height: 1;
 }
-
 .stat-unit {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.85rem;
   color: #aaa;
 }
 
-/* ── Pig area ────────────────────────────────────────────── */
+/* Pig */
 .pig-wrap {
   display: flex;
   align-items: center;
@@ -256,34 +275,23 @@ body {
   height: 110px;
   position: relative;
 }
-
-/* Gradient glow circle behind pig — the decorative gradient */
 .pig-wrap::before {
   content: '';
   position: absolute;
-  width: 130px;
-  height: 130px;
+  width: 130px; height: 130px;
   border-radius: 50%;
-  background: radial-gradient(circle, #F3CA9455 0%, #F3966F22 60%, transparent 100%);
+  background: radial-gradient(circle, #F3CA9440 0%, #F3966F18 65%, transparent 100%);
   z-index: 0;
 }
-
 .pig-scale {
   transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
 }
-
 .pig {
-  height: 85px;
-  width: auto;
-  object-fit: contain;
-  display: block;
+  height: 85px; width: auto;
+  object-fit: contain; display: block;
 }
-
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   40%       { transform: translateY(-16px); }
@@ -291,31 +299,28 @@ body {
 }
 .bounce { animation: bounce 0.5s ease; }
 
-/* ── Rank badge ──────────────────────────────────────────── */
+/* Rank badge */
 .rank-badge {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 0.88rem;
-  padding: 0.22rem 1rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.24rem 1.1rem;
   border-radius: 20px;
   flex-shrink: 0;
-  letter-spacing: 0.02em;
 }
 .rank-piglet      { background: #FFE8F0; color: #C0305A; }
 .rank-golden-pig  { background: #FFF5D0; color: #996600; }
 .rank-diamond-pig { background: #E0EDFF; color: #2050A0; }
 
-/* ── Progress bars ───────────────────────────────────────── */
+/* Progress bars */
 .progress-wrap {
   width: 100%;
-  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.22rem;
+  gap: 0.25rem;
   flex-shrink: 0;
 }
-
 .progress-track {
   width: 100%;
   height: 8px;
@@ -323,63 +328,60 @@ body {
   border-radius: 10px;
   overflow: hidden;
 }
-
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #F3966F, #F3CA94);
   border-radius: 10px;
   transition: width 0.45s ease;
 }
-
-.goal-fill {
-  background: linear-gradient(90deg, #F3CA94, #F3966F);
-}
-
+.goal-fill { background: linear-gradient(90deg, #F3CA94, #F3966F); }
 .progress-label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.72rem;
-  font-weight: 500;
   color: #bbb;
 }
 
-/* ── Deposit buttons ─────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   DEPOSIT BUTTONS — 3 equal, full width row
+══════════════════════════════════════════════════════════ */
 .deposit-row {
   display: flex;
   gap: 0.5rem;
+  width: 100%;
   flex-shrink: 0;
 }
-
 .btn-deposit {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
+  flex: 1;                        /* equal width */
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
   font-size: 1rem;
-  padding: 0.52rem 0;
-  width: 82px;
+  padding: 0.6rem 0;
+  text-align: center;
   border: 1.5px solid #EEE;
-  border-radius: 14px;
+  border-radius: 12px;
   background: #FAFAFA;
   color: #1C1C1C;
   cursor: pointer;
   transition: all 0.15s;
 }
-.btn-deposit:hover {
-  border-color: #F3966F;
-  color: #F3966F;
-  background: #FFF5F0;
-}
-.btn-deposit:active { transform: scale(0.95); }
+.btn-deposit:hover  { border-color: #F3966F; color: #F3966F; background: #FFF5F0; }
+.btn-deposit:active { transform: scale(0.96); }
 .btn-deposit:disabled { opacity: 0.4; cursor: default; transform: none; }
 
-/* ── Break button ────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   BREAK BUTTON — 50% width, centred
+══════════════════════════════════════════════════════════ */
 .btn-break {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 0.88rem;
-  padding: 0.55rem 1.8rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  width: 50%;
+  padding: 0.6rem 0;
+  text-align: center;
   background: transparent;
-  color: #bbb;
-  border: 1.5px solid #E8E8E8;
-  border-radius: 50px;
+  color: #ccc;
+  border: 1.5px solid #EBEBEB;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.15s;
   flex-shrink: 0;
@@ -387,26 +389,26 @@ body {
 .btn-break:hover  { border-color: #F3966F; color: #F3966F; }
 .btn-break:disabled { opacity: 0.4; cursor: default; }
 
-/* ── Wallet row ──────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   WALLET ROW
+══════════════════════════════════════════════════════════ */
 .wallet-row {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  justify-content: center;
+  gap: 0.7rem;
   flex-shrink: 0;
 }
-
 .wallet-label {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.75rem;
   color: #ccc;
 }
-
 .btn-disconnect {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 0.68rem;
-  padding: 0.2rem 0.6rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  padding: 0.22rem 0.65rem;
   border: 1.5px solid #E8E8E8;
   border-radius: 20px;
   background: transparent;
@@ -416,136 +418,113 @@ body {
 }
 .btn-disconnect:hover { border-color: #F3966F; color: #F3966F; }
 
-/* ── Modal ───────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════════════════ */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 1.5rem;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 1.5rem;
 }
-
 .modal-box {
   background: #fff;
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 1.5rem 1.5rem 1.25rem;
-  max-width: 310px;
-  width: 100%;
+  max-width: 310px; width: 100%;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0,0,0,0.18);
 }
-
-.modal-pig {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 0.4rem;
-}
-
+.modal-pig { width: 70px; height: 70px; object-fit: contain; margin-bottom: 0.4rem; }
 .modal-box h2 {
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: 1.15rem;
-  color: #C04060;
-  margin-bottom: 0.4rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700; font-size: 1.2rem;
+  color: #C04060; margin-bottom: 0.4rem;
 }
-
 .modal-body {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #666;
-  white-space: pre-line;
-  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.84rem; color: #666;
+  white-space: pre-line; line-height: 1.6;
 }
-
 .modal-count {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #F3966F;
-  margin: 0.4rem 0 0.8rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem; font-weight: 500;
+  color: #F3966F; margin: 0.4rem 0 0.8rem;
 }
-
 .modal-actions { display: flex; gap: 0.55rem; }
-
 .btn-keep {
   flex: 1;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 0.82rem;
-  padding: 0.65rem 0.4rem;
-  background: #F5F5F5;
-  color: #888;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background 0.15s;
+  font-family: 'Roboto', sans-serif; font-weight: 500;
+  font-size: 0.85rem; padding: 0.65rem 0.4rem;
+  background: #F5F5F5; color: #888;
+  border: none; border-radius: 50px;
+  cursor: pointer; transition: background 0.15s;
 }
 .btn-keep:hover { background: #EBEBEB; }
-
 .btn-break-anyway {
   flex: 1;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 0.82rem;
-  padding: 0.65rem 0.4rem;
+  font-family: 'Roboto', sans-serif; font-weight: 500;
+  font-size: 0.85rem; padding: 0.65rem 0.4rem;
   background: linear-gradient(135deg, #F3966F, #F3CA94);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: opacity 0.15s;
+  color: #fff; border: none; border-radius: 50px;
+  cursor: pointer; transition: opacity 0.15s;
 }
 .btn-break-anyway:hover { opacity: 0.88; }
 
-/* ── Toast ───────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════ */
 .toast {
-  position: fixed;
-  bottom: 1.4rem;
-  left: 50%;
+  position: fixed; bottom: 1.4rem; left: 50%;
   transform: translateX(-50%);
-  background: rgba(28, 28, 28, 0.88);
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: 0.82rem;
-  padding: 0.55rem 1.2rem;
-  border-radius: 20px;
-  white-space: nowrap;
-  max-width: calc(100% - 2rem);
-  text-align: center;
-  z-index: 200;
+  background: rgba(28,28,28,0.88); color: #fff;
+  font-family: 'Roboto', sans-serif; font-size: 0.84rem;
+  padding: 0.55rem 1.2rem; border-radius: 20px;
+  white-space: nowrap; max-width: calc(100% - 2rem);
+  text-align: center; z-index: 200;
 }
 
-/* ── Prevent Buy Pig button from jumping on mode switch ─── */
-/* goalInputWrap keeps its space even when invisible         */
-#goalInputWrap.hidden {
-  display: block !important;
-  visibility: hidden !important;
-  pointer-events: none;
+/* ══════════════════════════════════════════════════════════
+   TALL SCREENS — iPhone X / 12 / 13 / 14 (≥ 750 px height)
+   Give every screen room to breathe at 375 × 812 px.
+══════════════════════════════════════════════════════════ */
+@media (min-height: 750px) {
+  /* Connect screen */
+  .screen-connect { gap: 1.5rem; padding-top: 2.2rem; }
+  .hero-pig       { width: 210px; height: 210px; }
+
+  /* Buy screen */
+  .screen-buy  { gap: 0.9rem; padding-top: 1.4rem; }
+  .hero-pig-sm { width: 180px; height: 180px; }
+
+  /* App screen */
+  .screen-app { gap: 1.1rem; padding-top: 1.2rem; }
+  .pig        { height: 96px; }
+  .pig-wrap   { height: 124px; }
+  .pig-wrap::before { width: 144px; height: 144px; }
+  .stat-big   { font-size: 2.5rem; }
+
+  /* Deposit buttons slightly taller for easier tap */
+  .btn-deposit { padding: 0.75rem 0; }
 }
 
-/* ── Short screens ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   SHORT SCREENS
+══════════════════════════════════════════════════════════ */
 @media (max-height: 680px) {
-  .hero-pig    { width: 95px;  height: 95px; }
-  .hero-pig-sm { width: 58px;  height: 58px; }
+  .hero-pig    { width: 100px; height: 100px; }
+  .hero-pig-sm { width: 62px;  height: 62px; }
   .pig         { height: 68px; }
   .pig-wrap    { height: 88px; }
-  .app-title   { font-size: 2rem; }
-  .stat-big    { font-size: 1.65rem; }
-  .btn-deposit { width: 75px; font-size: 0.93rem; }
-  .screen-connect { gap: 0.7rem; padding-top: 1rem; }
-  .screen-buy     { gap: 0.5rem; padding-top: 0.5rem; }
-  .screen-app     { gap: 0.4rem; }
+  .app-title   { font-size: 2.1rem; }
+  .stat-big    { font-size: 1.8rem; }
+  .screen-connect { gap: 0.75rem; padding-top: 1rem; }
+  .screen-buy     { gap: 0.6rem;  padding-top: 0.5rem; }
+  .screen-app     { gap: 0.5rem; }
 }
-
 @media (max-height: 580px) {
-  .hero-pig    { width: 72px; height: 72px; }
+  .hero-pig    { width: 76px; height: 76px; }
   .pig         { height: 55px; }
   .pig-wrap    { height: 70px; }
-  .screen-app  { gap: 0.3rem; }
+  .screen-app  { gap: 0.35rem; }
 }

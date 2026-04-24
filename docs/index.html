@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>PigSave</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="images/pig-logo.png" />
   <link rel="apple-touch-icon" href="images/pig-logo.png" />
   <link rel="stylesheet" href="style.css" />
@@ -60,15 +60,16 @@
     </div>
 
     <!-- Single desc — JS swaps the text on mode change, no layout jump -->
-    <p id="modeDesc" class="mode-desc"
-       data-vi="Bỏ heo ít nhất 30 lần → lấy lại 1 USDC"
-       data-en="Save at least 30 times → get your 1 USDC back"
-       data-zh="至少存30次 → 退回1 USDC">Save at least 30 times → get your 1 USDC back</p>
-
-    <!-- Goal input shown only in purpose mode -->
-    <div id="goalInputWrap" class="hidden">
-      <input id="goalInput" type="number" min="1" step="1"
-             placeholder="Goal amount (USDC)" class="goal-input" />
+    <!-- Fixed-height wrapper: prevents layout jump when goal input appears -->
+    <div class="mode-details">
+      <p id="modeDesc" class="mode-desc"
+         data-vi="Bỏ heo ít nhất 30 lần → lấy lại 1 USDC"
+         data-en="Save at least 30 times → get your 1 USDC back"
+         data-zh="至少存30次 → 退回1 USDC">Save at least 30 times → get your 1 USDC back</p>
+      <div id="goalInputWrap" class="hidden">
+        <input id="goalInput" type="number" min="1" step="1"
+               placeholder="Goal amount (USDC)" class="goal-input" />
+      </div>
     </div>
 
     <button class="btn-primary btn-buy" onclick="buyPigAction()">
