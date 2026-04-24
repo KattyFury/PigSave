@@ -521,6 +521,16 @@ body {
   z-index: 200;
 }
 
+/* ── Prevent layout jump when switching modes ───────────── */
+/* Instead of display:none, keep space but hide visually     */
+#modeDescNormal.hidden,
+#modeDescPurpose.hidden,
+#goalInputWrap.hidden {
+  display: block !important;   /* override .hidden */
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
 /* ── Short screens ───────────────────────────────────────── */
 @media (max-height: 680px) {
   .hero-pig    { width: 95px;  height: 95px; }
