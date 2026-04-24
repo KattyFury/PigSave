@@ -131,13 +131,28 @@ function showScreen(id) {
 }
 
 // ── Mode selection (on buy screen) ────────────────────────
+const MODE_DESC = {
+  normal:  { vi: "Bỏ heo ít nhất 30 lần → lấy lại 1 USDC",
+             en: "Save at least 30 times → get your 1 USDC back",
+             zh: "至少存30次 → 退回1 USDC" },
+  purpose: { vi: "Đạt mục tiêu tiết kiệm → lấy lại 1 USDC",
+             en: "Reach your saving goal → get your 1 USDC back",
+             zh: "达成目标 → 退回1 USDC" }
+};
+
 function selectMode(mode) {
   selectedMode = mode;
   document.getElementById("selectNormal").classList.toggle("active",  mode === "normal");
   document.getElementById("selectPurpose").classList.toggle("active", mode === "purpose");
-  document.getElementById("modeDescNormal").classList.toggle("hidden",  mode !== "normal");
-  document.getElementById("modeDescPurpose").classList.toggle("hidden", mode !== "purpose");
-  document.getElementById("goalInputWrap").classList.toggle("hidden",   mode !== "purpose");
+  document.getElementById("goalInputWrap").classList.toggle("hidden", mode !== "purpose");
+
+  // Swap desc text in-place — no element appears/disappears, no layout jump
+  const desc = document.getElementById("modeDesc");
+  const texts = MODE_DESC[mode];
+  desc.setAttribute("data-vi", texts.vi);
+  desc.setAttribute("data-en", texts.en);
+  desc.setAttribute("data-zh", texts.zh);
+  desc.textContent = texts[currentLang] ?? texts.en;
 }
 
 // ── Wallet connection ──────────────────────────────────────
