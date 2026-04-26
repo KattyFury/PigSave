@@ -19,6 +19,9 @@ let pigSaveContract;
 let currentLang  = "en";
 let selectedMode = "normal"; // chosen on the buy screen
 
+const LANG_CYCLE  = ["en", "vi", "zh"];
+const LANG_LABELS = { en: "EN", vi: "VI", zh: "CN" };
+
 let userData = {
   balance:      0n,
   depositCount: 0n,
@@ -27,10 +30,11 @@ let userData = {
   hasPig:       false
 };
 
-// ── Rank System (3 tiers, balance-based, no icon in label) ─
+// ── Rank System ────────────────────────────────────────────
+// Diamond fills 9-cell area at ×1.4; Piglet base = ~164 px
 function getRank(balanceUSD) {
-  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 1.6, prefix: "c" };
-  if (balanceUSD >= 100)  return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.3, prefix: "b" };
+  if (balanceUSD >= 1000) return { cls: "rank-diamond-pig", label: "Diamond Pig", scale: 1.4, prefix: "c" };
+  if (balanceUSD >= 100)  return { cls: "rank-golden-pig",  label: "Golden Pig",  scale: 1.2, prefix: "b" };
   return                         { cls: "rank-piglet",      label: "Piglet",      scale: 1.0, prefix: "a" };
 }
 
@@ -109,10 +113,21 @@ function t(key, ...args) {
 }
 
 // ── Language ───────────────────────────────────────────────
+function cycleLang() {
+  const idx = LANG_CYCLE.indexOf(currentLang);
+  currentLang = LANG_CYCLE[(idx + 1) % LANG_CYCLE.length];
+  document.querySelectorAll(".lang-pill").forEach(btn => {
+    btn.textContent = LANG_LABELS[currentLang];
+  });
+  applyLang();
+}
+
+// keep setLang() for auto-reconnect init (sets pill label too)
 function setLang(lang) {
   currentLang = lang;
-  document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("lang" + lang.toUpperCase()).classList.add("active");
+  document.querySelectorAll(".lang-pill").forEach(btn => {
+    btn.textContent = LANG_LABELS[lang];
+  });
   applyLang();
 }
 

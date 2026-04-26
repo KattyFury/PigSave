@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>PigSave</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:wght@500;700&family=Roboto+Condensed:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="images/0.png" />
   <link rel="apple-touch-icon" href="images/0.png" />
   <link rel="stylesheet" href="style.css" />
@@ -13,30 +13,34 @@
 <body>
 <div class="container">
 
-  <!-- Language toggle — inside container so it centres with everything -->
-  <div class="lang-toggle">
-    <button id="langEN" class="lang-btn active" onclick="setLang('en')">English</button>
-    <button id="langVI" class="lang-btn"        onclick="setLang('vi')">Tiếng Việt</button>
-    <button id="langZH" class="lang-btn"        onclick="setLang('zh')">中文</button>
-  </div>
-
   <!-- ══ SCREEN 1 · Connect ═══════════════════════════════ -->
-  <div id="connectSection" class="screen screen-buy">
-    <h1 class="app-title-sm">PigSave</h1>
-    <img src="images/a1.png" class="hero-pig-sm" alt="pig" />
-    <h2 class="buy-title"
-        data-vi="Kết nối ví<br>để bắt đầu bỏ heo"
-        data-en="Connect your wallet<br>to start saving"
-        data-zh="连接钱包<br>开始存钱">Connect your wallet<br>to start saving</h2>
-    <!-- spacer mirrors mode-select + mode-details on buy screen -->
-    <div class="connect-spacer"></div>
-    <button class="btn-primary" onclick="connectWallet()">
-      <span data-vi="Kết nối ví" data-en="Connect Wallet" data-zh="连接钱包">Connect Wallet</span>
+  <!-- 5×11 grid: A-E cols, 1-11 rows -->
+  <div id="connectSection" class="screen screen-connect">
+    <button class="lang-pill" onclick="cycleLang()">EN</button>
+
+    <!-- 2B-2D: app title -->
+    <h1 class="c-title">PigSave</h1>
+
+    <!-- 3B-5D: pig -->
+    <div class="c-pig">
+      <img src="images/a1.png" class="pig-static" alt="pig" />
+    </div>
+
+    <!-- 6B-6D: subtitle -->
+    <p class="c-sub"
+       data-vi="Kết nối ví<br>để bắt đầu bỏ heo"
+       data-en="Connect your wallet<br>to start saving"
+       data-zh="连接钱包<br>开始存钱">Connect your wallet<br>to start saving</p>
+
+    <!-- row 10, B-D: connect button -->
+    <button class="c-btn" onclick="connectWallet()">
+      <span data-vi="KẾT NỐI VÍ" data-en="CONNECT WALLET" data-zh="连接钱包">CONNECT WALLET</span>
     </button>
   </div>
 
   <!-- ══ SCREEN 2 · Buy Pig ════════════════════════════════ -->
   <div id="buySection" class="screen screen-buy hidden">
+    <button class="lang-pill" onclick="cycleLang()">EN</button>
     <h1 class="app-title-sm">PigSave</h1>
     <img src="images/a1.png" class="hero-pig-sm" alt="pig" />
 
@@ -83,6 +87,7 @@
 
   <!-- ══ SCREEN 3 · Main App ═══════════════════════════════ -->
   <div id="appSection" class="screen screen-app hidden">
+    <button class="lang-pill" onclick="cycleLang()">EN</button>
 
     <!-- Deposit count centred at top -->
     <div class="stats-center">
