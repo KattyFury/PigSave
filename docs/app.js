@@ -156,12 +156,44 @@ function setLang(lang) {
   applyLang();
 }
 
-// close dropdown when clicking outside
+// close dropdowns when clicking outside
 document.addEventListener("click", e => {
   if (!e.target.closest(".lang-selector")) {
     document.querySelectorAll(".lang-selector").forEach(s => s.classList.remove("open"));
   }
+  if (!e.target.closest(".b-menu-wrap")) {
+    const dd = document.getElementById("buyMenuDropdown");
+    if (dd) dd.classList.add("hidden");
+  }
 });
+
+// ── Buy screen menu ────────────────────────────────────────
+function toggleBuyMenu() {
+  document.getElementById("buyMenuDropdown").classList.toggle("hidden");
+}
+
+const MENU_INFO = {
+  history: {
+    en: "No deposits recorded yet. Buy a pig and start saving!",
+    vi: "Chưa có giao dịch nào. Mua heo và bắt đầu tiết kiệm!",
+    zh: "暂无存款记录，购买小猪开始存钱吧！"
+  },
+  security: {
+    en: "PigSave is a non-custodial smart contract on Arc Testnet.\nYour funds are locked in the contract — only you can withdraw them.\nContract: 0x23A6...E720",
+    vi: "PigSave là hợp đồng thông minh không lưu ký trên Arc Testnet.\nTài sản của bạn được khóa trong hợp đồng — chỉ bạn mới có thể rút.\nHợp đồng: 0x23A6...E720",
+    zh: "PigSave 是 Arc 测试网上的非托管智能合约。\n您的资金锁定在合约中，只有您可以提取。\n合约地址：0x23A6...E720"
+  },
+  about: {
+    en: "PigSave is an on-chain piggy bank that makes saving feel intentional.\nBuy a pig for 1 USDC · deposit savings · break the bank when ready.\nMeet your goal → get your 1 USDC back.",
+    vi: "PigSave là heo tiết kiệm on-chain giúp việc để dành trở nên có chủ đích.\nMua heo 1 USDC · bỏ tiền vào · đập heo khi sẵn sàng.\nHoàn thành mục tiêu → lấy lại 1 USDC.",
+    zh: "PigSave 是让存钱充满意义的链上存钱罐。\n花1 USDC买小猪 · 存入储蓄 · 准备好时打碎存钱罐。\n达成目标 → 退回1 USDC。"
+  }
+};
+
+function menuAction(key) {
+  document.getElementById("buyMenuDropdown").classList.add("hidden");
+  showToast(MENU_INFO[key][currentLang] ?? MENU_INFO[key].en);
+}
 
 function applyLang() {
   document.querySelectorAll("[data-vi]").forEach(el => {
@@ -223,6 +255,14 @@ async function initApp() {
   const addrShort = userAddress.slice(0,6) + "..." + userAddress.slice(-4);
   document.getElementById("walletAddr").textContent    = addrShort;
   document.getElementById("buyWalletAddr").textContent = addrShort;
+
+  // Fetch native balance (USDC on Arc) for buy screen display
+  try {
+    const rawBal = await provider.getBalance(userAddress);
+    const usdcBal = parseFloat(ethers.formatUnits(rawBal, 18)).toFixed(2);
+    const balEl = document.getElementById("buyWalletBalance");
+    if (balEl) balEl.textContent = usdcBal + " USDC";
+  } catch (_) {}
 
   // Check/switch network
   const chainId = await window.ethereum.request({ method: "eth_chainId" });
@@ -524,7 +564,7 @@ async function executeWithdraw() {
 // ── UI helpers ─────────────────────────────────────────────
 function setBusy(on) {
   document.querySelectorAll(
-    ".btn-deposit, .btn-break, .btn-break-modal, .btn-keep, .c-btn"
+    ".btn-deposit, .btn-break, .btn-break-modal, .btn-keep, .c-btn, .b-buy-btn"
   ).forEach(b => b.disabled = on);
 }
 

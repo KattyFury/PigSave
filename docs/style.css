@@ -94,17 +94,23 @@ body {
 .lang-option.active { color: #E07840; }
 
 /* ══════════════════════════════════════════════════════════
-   SCREEN 1 · CONNECT  —  5 cols × 11 rows grid
+   SCREEN 1 · CONNECT  —  4 cols (a b c d) × 12 rows
 ══════════════════════════════════════════════════════════ */
 .screen-connect {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(12, 1fr);
 }
 
-/* 2B-2D — PigSave title */
+/* lang pill override: row-1 centre of 12-row / col-d centre of 4-col */
+.screen-connect .lang-selector {
+  top:   calc(100dvh / 24);
+  right: calc(min(390px, 100vw) / 8);
+}
+
+/* row 2, a-d — PigSave title */
 .c-title {
-  grid-column: 2 / 5;
+  grid-column: 1 / 5;
   grid-row: 2;
   align-self: center;
   justify-self: center;
@@ -120,10 +126,10 @@ body {
   filter: drop-shadow(0 2px 6px rgba(224,120,64,0.20));
 }
 
-/* 3B-5D — pig area */
+/* rows 3-6, b-c — pig (center 2 of 4 cols) */
 .c-pig {
-  grid-column: 2 / 5;
-  grid-row: 3 / 6;
+  grid-column: 2 / 4;
+  grid-row: 3 / 7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,17 +141,16 @@ body {
   height: 164px;
   object-fit: contain;
   animation: pigFloat 3.6s ease-in-out infinite;
-  filter: drop-shadow(0 10px 22px rgba(180,90,40,0.22));
 }
 @keyframes pigFloat {
   0%, 100% { transform: translateY(0px);   }
   50%       { transform: translateY(-10px); }
 }
 
-/* 6B-6D — subtitle */
+/* row 7, a-d — intro text */
 .c-sub {
-  grid-column: 2 / 5;
-  grid-row: 6;
+  grid-column: 1 / 5;
+  grid-row: 7;
   align-self: center;
   justify-self: center;
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
@@ -157,12 +162,13 @@ body {
   padding: 0 2rem;
 }
 
-/* Row 10, B-D — Connect Wallet / Buy Pig button */
+/* row 8, a-d — Connect Wallet / Buy Pig button */
 .c-btn {
-  grid-column: 2 / 5;
-  grid-row: 10;
-  align-self: end;
+  grid-column: 1 / 5;
+  grid-row: 8;
+  align-self: center;
   justify-self: stretch;
+  margin: 0 1.5rem;
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
   font-size: 25px;
@@ -181,7 +187,7 @@ body {
 .c-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
 
 /* ══════════════════════════════════════════════════════════
-   SCREEN 2 · BUY PIG — same 5×11 grid
+   SCREEN 2 · BUY PIG — 5 cols × 11 rows
 ══════════════════════════════════════════════════════════ */
 .screen-buy {
   display: grid;
@@ -189,31 +195,132 @@ body {
   grid-template-rows: repeat(11, 1fr);
 }
 
-/* 6B-6D: subtitle on buy screen */
-.b-subtitle {
+/* Row 1 a-e: header bar */
+.b-header {
+  grid-column: 1 / 6;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+
+.b-logo {
+  font-family: 'Barlow Condensed', 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  background: linear-gradient(135deg, #F7A882 0%, #E07840 55%, #C85828 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 4px rgba(224,120,64,0.20));
+}
+
+/* lang selector override inside the header flex flow */
+.b-header .lang-selector {
+  position: relative;
+  top: auto;
+  right: auto;
+  transform: none;
+}
+
+/* menu icon + dropdown wrapper */
+.b-menu-wrap { position: relative; }
+
+.b-menu-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+.b-menu-btn:hover { background: rgba(90,58,40,0.08); }
+
+.b-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.04);
+  overflow: hidden;
+  min-width: 185px;
+  z-index: 30;
+}
+.b-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 1.15rem;
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #3A2018;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.b-menu-item:hover { background: #FDF2E4; color: #E07840; }
+.b-menu-item + .b-menu-item { border-top: 1px solid rgba(0,0,0,0.06); }
+
+/* Row 2 c-e: wallet address + balance (right-aligned) */
+.b-wallet-info {
+  grid-column: 3 / 6;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding-right: 1.25rem;
+  gap: 0.15rem;
+}
+.b-wallet-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.b-wallet-balance {
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #E07840;
+}
+
+/* Rows 3-5, b-d: pig on buy screen */
+.screen-buy .c-pig {
   grid-column: 2 / 5;
-  grid-row: 6;
+  grid-row: 3 / 6;
+}
+
+/* Row 7 a-e: subtitle */
+.b-subtitle {
+  grid-column: 1 / 6;
+  grid-row: 7;
   align-self: center;
   justify-self: center;
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 18px;
   color: #5A3A28;
   text-align: center;
+  line-height: 1.35;
   padding: 0 2rem;
 }
 
-/* 7B-9D: mode toggle area — items packed toward top */
-.b-mode {
-  grid-column: 2 / 5;
-  grid-row: 7 / 10;
-  display: grid;
-  grid-template-rows: auto auto auto;
-  align-content: start;
+/* Row 8 b-e: mode toggle row */
+.b-mode-toggle {
+  grid-column: 2 / 6;
+  grid-row: 8;
+  display: flex;
   align-items: center;
-  justify-items: center;
-  gap: 0.6rem;
-  padding-top: 0.5rem;
+  padding: 0 1.25rem 0 0;
 }
 
 .b-mode-btns {
@@ -245,6 +352,18 @@ body {
   box-shadow: 0 2px 10px rgba(216,104,40,0.38);
 }
 
+/* Row 9 b-e: description + optional goal input */
+.b-desc-row {
+  grid-column: 2 / 6;
+  grid-row: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  padding: 0.2rem 1.25rem 0 0;
+}
+
 .b-mode-desc {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 500;
@@ -253,10 +372,9 @@ body {
   text-align: center;
   line-height: 1.4;
   width: 100%;
-  padding: 0 2rem;
 }
 
-#goalInputWrap { width: 100%; padding: 0 2rem; }
+#goalInputWrap { width: 100%; }
 #goalInputWrap.hidden {
   display: block !important;
   visibility: hidden;
@@ -278,17 +396,28 @@ body {
 .goal-input::placeholder { color: #C8A898; }
 .goal-input:focus { border-color: #E07840; box-shadow: 0 0 0 3px rgba(224,120,64,0.15); }
 
-/* row 11: wallet + disconnect */
-.b-wallet {
+/* Rows 10-11 b-d: BUY PIG button */
+.b-buy-btn {
   grid-column: 2 / 5;
-  grid-row: 11;
-  align-self: start;
-  justify-self: center;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding-top: 0.55rem;
+  grid-row: 10 / 12;
+  align-self: center;
+  justify-self: stretch;
+  font-family: 'Barlow Condensed', 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: 0.4px;
+  color: #fff;
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
+  border: none;
+  border-radius: 50px;
+  height: 56px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  box-shadow: 0 6px 22px rgba(216,104,40,0.50), inset 0 1px 0 rgba(255,255,255,0.22);
 }
+.b-buy-btn:hover  { opacity: 0.90; }
+.b-buy-btn:active { transform: scale(0.97); }
+.b-buy-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
 
 /* ── Wallet label + disconnect button (shared) ──────────── */
 .wallet-label {

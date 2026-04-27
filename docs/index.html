@@ -14,42 +14,10 @@
 <div class="container">
 
   <!-- ══ SCREEN 1 · Connect ═══════════════════════════════ -->
-  <!-- 5×11 grid: A-E cols, 1-11 rows -->
+  <!-- 4×12 grid: a-d cols, 1-12 rows -->
   <div id="connectSection" class="screen screen-connect">
-    <div class="lang-selector" id="langSelector">
-      <button class="lang-pill" onclick="toggleLangMenu()">EN</button>
-      <div class="lang-dropdown">
-        <button class="lang-option active" onclick="pickLang('en')">EN</button>
-        <button class="lang-option"        onclick="pickLang('vi')">VI</button>
-        <button class="lang-option"        onclick="pickLang('zh')">CN</button>
-      </div>
-    </div>
 
-    <!-- 2B-2D: app title -->
-    <h1 class="c-title">PigSave</h1>
-
-    <!-- 3B-5D: pig -->
-    <div class="c-pig">
-      <img src="images/a1.png" class="pig-static" alt="pig" />
-    </div>
-
-    <!-- 6B-6D: subtitle -->
-    <p class="c-sub"
-       data-vi="Kết nối ví để bắt đầu bỏ heo"
-       data-en="Connect your wallet to start saving"
-       data-zh="连接钱包开始存钱">Connect your wallet to start saving</p>
-
-    <!-- row 10, B-D: connect button -->
-    <button class="c-btn" onclick="connectWallet()">
-      <span data-vi="KẾT NỐI VÍ" data-en="CONNECT WALLET" data-zh="连接钱包">CONNECT WALLET</span>
-    </button>
-  </div>
-
-  <!-- ══ SCREEN 2 · Buy Pig ════════════════════════════════ -->
-  <!-- Same 5×11 grid as connect screen -->
-  <div id="buySection" class="screen screen-buy hidden">
-
-    <!-- 1E: lang pill -->
+    <!-- 1d: lang pill (positioned absolutely) -->
     <div class="lang-selector">
       <button class="lang-pill" onclick="toggleLangMenu()">EN</button>
       <div class="lang-dropdown">
@@ -59,22 +27,86 @@
       </div>
     </div>
 
-    <!-- 2B-2D: title (same position as connect) -->
+    <!-- row 2, a-d: PigSave title -->
     <h1 class="c-title">PigSave</h1>
 
-    <!-- 3B-5D: pig (same position as connect) -->
+    <!-- rows 3-6, b-c: pig (center 2 cols) -->
     <div class="c-pig">
       <img src="images/a1.png" class="pig-static" alt="pig" />
     </div>
 
-    <!-- 6B-6D: subtitle -->
-    <p class="b-subtitle"
-       data-vi="Xin chọn chế độ tiết kiệm"
-       data-en="Please choose a saving mode"
-       data-zh="请选择存钱模式">Please choose a saving mode</p>
+    <!-- row 7, a-d: intro text -->
+    <p class="c-sub"
+       data-vi="Heo tiết kiệm on-chain giúp việc để dành trở nên có chủ đích"
+       data-en="On-chain piggy bank designed to make saving feel intentional"
+       data-zh="链上存钱罐，让每一次存钱都充满意义">On-chain piggy bank designed to make saving feel intentional</p>
 
-    <!-- 7B-9D: Normal / With Goal toggle + desc + goal input -->
-    <div class="b-mode">
+    <!-- row 8, a-d: connect button -->
+    <button class="c-btn" onclick="connectWallet()">
+      <span data-vi="KẾT NỐI VÍ" data-en="CONNECT WALLET" data-zh="连接钱包">CONNECT WALLET</span>
+    </button>
+  </div>
+
+  <!-- ══ SCREEN 2 · Buy Pig ════════════════════════════════ -->
+  <!-- 5×11 grid: a-e cols, 1-11 rows -->
+  <div id="buySection" class="screen screen-buy hidden">
+
+    <!-- row 1 a-e: header — PigSave logo | lang pill | menu icon -->
+    <div class="b-header">
+      <span class="b-logo">PigSave</span>
+      <div class="lang-selector">
+        <button class="lang-pill" onclick="toggleLangMenu()">EN</button>
+        <div class="lang-dropdown">
+          <button class="lang-option active" onclick="pickLang('en')">EN</button>
+          <button class="lang-option"        onclick="pickLang('vi')">VI</button>
+          <button class="lang-option"        onclick="pickLang('zh')">CN</button>
+        </div>
+      </div>
+      <div class="b-menu-wrap">
+        <button class="b-menu-btn" onclick="toggleBuyMenu()">
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="0"    width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+            <rect y="6.75" width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+            <rect y="13.5" width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+          </svg>
+        </button>
+        <div class="b-menu-dropdown hidden" id="buyMenuDropdown">
+          <button class="b-menu-item" onclick="menuAction('history')">
+            <span data-vi="Lịch sử giao dịch" data-en="Deposit History" data-zh="存款记录">Deposit History</span>
+          </button>
+          <button class="b-menu-item" onclick="menuAction('security')">
+            <span data-vi="An toàn &amp; Bảo mật" data-en="Trust &amp; Security" data-zh="信任与安全">Trust &amp; Security</span>
+          </button>
+          <button class="b-menu-item" onclick="menuAction('about')">
+            <span data-vi="Về PigSave" data-en="About PigSave" data-zh="关于 PigSave">About PigSave</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 2 c-e: wallet address + balance (right-aligned) -->
+    <div class="b-wallet-info">
+      <div class="b-wallet-top">
+        <span class="wallet-label" id="buyWalletAddr"></span>
+        <button class="btn-disconnect" onclick="disconnectWallet()"
+                data-vi="Ngắt kết nối" data-en="Disconnect" data-zh="断开连接">Disconnect</button>
+      </div>
+      <div class="b-wallet-balance" id="buyWalletBalance">– USDC</div>
+    </div>
+
+    <!-- rows 3-5, b-d: pig -->
+    <div class="c-pig">
+      <img src="images/a1.png" class="pig-static" alt="pig" />
+    </div>
+
+    <!-- row 7 a-e: subtitle -->
+    <p class="b-subtitle"
+       data-vi="Chọn chế độ và bắt đầu hành trình tiết kiệm"
+       data-en="Pick a saving mode and begin your saving journey"
+       data-zh="选择存钱模式，开启你的存钱之旅">Pick a saving mode and begin your saving journey</p>
+
+    <!-- row 8 b-e: Normal / With Goal toggle -->
+    <div class="b-mode-toggle">
       <div class="b-mode-btns">
         <button id="selectNormal"  class="b-mode-btn active" onclick="selectMode('normal')">
           <span data-vi="Bình thường" data-en="Normal" data-zh="普通">Normal</span>
@@ -83,6 +115,10 @@
           <span data-vi="Có mục tiêu" data-en="With Goal" data-zh="目标">With Goal</span>
         </button>
       </div>
+    </div>
+
+    <!-- row 9 b-e: description text + goal input -->
+    <div class="b-desc-row">
       <p id="modeDesc" class="b-mode-desc"
          data-vi="Bỏ heo ít nhất 30 lần → lấy lại 1 USDC"
          data-en="Save at least 30 times → get your 1 USDC back"
@@ -93,17 +129,11 @@
       </div>
     </div>
 
-    <!-- row 10 B-D: buy button -->
-    <button class="c-btn" onclick="buyPigAction()">
+    <!-- rows 10-11 b-d: BUY PIG button -->
+    <button class="b-buy-btn" onclick="buyPigAction()">
       <span data-vi="MUA HEO – 1 USDC" data-en="BUY PIG – 1 USDC" data-zh="购买小猪 – 1 USDC">BUY PIG – 1 USDC</span>
     </button>
 
-    <!-- row 11: wallet address + disconnect -->
-    <div class="b-wallet">
-      <p class="wallet-label" id="buyWalletAddr"></p>
-      <button class="btn-disconnect" onclick="disconnectWallet()"
-              data-vi="Ngắt kết nối" data-en="Disconnect" data-zh="断开连接">Disconnect</button>
-    </div>
   </div>
 
   <!-- ══ SCREEN 3 · Main App ═══════════════════════════════ -->
