@@ -314,13 +314,12 @@ body {
   padding: 0 2rem;
 }
 
-/* Row 8 b-e: mode toggle row */
+/* Row 8 b-d: mode toggle row (cols 2-4, symmetric 1-col margin each side) */
 .b-mode-toggle {
-  grid-column: 2 / 6;
+  grid-column: 2 / 5;
   grid-row: 8;
   display: flex;
   align-items: center;
-  padding: 0 1.25rem 0 0;
 }
 
 .b-mode-btns {
@@ -352,16 +351,16 @@ body {
   box-shadow: 0 2px 10px rgba(216,104,40,0.38);
 }
 
-/* Row 9 b-e: description + optional goal input */
+/* Row 9 b-d: description + optional goal input (same cols as toggle) */
 .b-desc-row {
-  grid-column: 2 / 6;
+  grid-column: 2 / 5;
   grid-row: 9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 0.45rem;
-  padding: 0.2rem 1.25rem 0 0;
+  padding-top: 0.2rem;
 }
 
 .b-mode-desc {
@@ -396,12 +395,13 @@ body {
 .goal-input::placeholder { color: #C8A898; }
 .goal-input:focus { border-color: #E07840; box-shadow: 0 0 0 3px rgba(224,120,64,0.15); }
 
-/* Rows 10-11 b-d: BUY PIG button */
+/* Rows 10-11 a-e: BUY PIG button (full width with margins, like CONNECT WALLET) */
 .b-buy-btn {
-  grid-column: 2 / 5;
+  grid-column: 1 / 6;
   grid-row: 10 / 12;
   align-self: center;
   justify-self: stretch;
+  margin: 0 1.5rem;
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
   font-size: 25px;
