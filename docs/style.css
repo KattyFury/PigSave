@@ -2,21 +2,24 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overscroll-behavior: none; }
 
-/* ── Body: white sides on desktop, peach column centred ─ */
+/* ── Body: matches container on all sides, no visible gap ── */
 body {
   font-family: 'Roboto Condensed', 'Roboto', system-ui, sans-serif;
-  background: #F0D8BC;
+  background: linear-gradient(180deg, #FDF2E4 0%, #FBE9D5 45%, #F5DFC8 100%);
+  background-attachment: fixed;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   overflow: hidden;
+  min-height: 100dvh;
 }
 
 .hidden { display: none !important; }
 
 /* ── Container ──────────────────────────────────────────── */
 .container {
-  width: min(390px, 100vw);
+  width: 100%;          /* full width on phone */
+  max-width: 390px;     /* capped on desktop */
   height: 100dvh;
   position: relative;
   overflow: hidden;
