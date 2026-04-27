@@ -343,9 +343,15 @@ function setPigVisual(state = "normal") {
 
   pigScale.style.transform = `scale(${rank.scale})`;
 
-  // a/b/c = piglet/golden/diamond · 1=normal 2=sad 3=happy 4=deposit
   const stateNum = { normal: 1, sad: 2, happy: 3, deposit: 4 };
-  pig.src = `images/${rank.prefix}${stateNum[state] ?? 1}.png`;
+  const newSrc = `images/${rank.prefix}${stateNum[state] ?? 1}.png`;
+
+  // Only swap src if image actually changes — fade out → load → fade in
+  if (!pig.src.endsWith(newSrc)) {
+    pig.style.opacity = "0";
+    pig.onload = () => { pig.style.opacity = "1"; pig.onload = null; };
+    pig.src = newSrc;
+  }
 }
 
 function bouncePig() {
