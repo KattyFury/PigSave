@@ -5,7 +5,7 @@ html, body { height: 100%; overscroll-behavior: none; }
 /* ── Body: white sides on desktop, peach column centred ─ */
 body {
   font-family: 'Roboto Condensed', 'Roboto', system-ui, sans-serif;
-  background: #ffffff;
+  background: #F0D8BC;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -20,7 +20,7 @@ body {
   height: 100dvh;
   position: relative;
   overflow: hidden;
-  background: #FBE9D5;
+  background: linear-gradient(180deg, #FDF2E4 0%, #FBE9D5 45%, #F5DFC8 100%);
 }
 
 /* ── All screens fill container absolutely ──────────────── */
@@ -29,15 +29,12 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: #FBE9D5;
+  background: transparent;
 }
 
 /* ══════════════════════════════════════════════════════════
    LANGUAGE PILL — sits at grid cell 1E on every screen
-   Row-1 centre : top  = 100dvh / 22
-   Col-E centre : right = container-width / 10  (= 1 col / 2 from right)
 ══════════════════════════════════════════════════════════ */
-/* ── Lang selector wrapper ────────────────────────────── */
 .lang-selector {
   position: absolute;
   top:   calc(100dvh / 22);
@@ -46,13 +43,12 @@ body {
   z-index: 20;
 }
 
-/* The visible pill button */
 .lang-pill {
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
   font-size: 20px;
   color: #fff;
-  background: #F08070;
+  background: linear-gradient(135deg, #F59A85, #E06848);
   border: none;
   border-radius: 50px;
   padding: 0.28rem 0.8rem;
@@ -60,18 +56,18 @@ body {
   transition: opacity 0.15s;
   line-height: 1;
   display: block;
+  box-shadow: 0 3px 12px rgba(224,104,72,0.40);
 }
-.lang-pill:hover  { opacity: 0.85; }
+.lang-pill:hover { opacity: 0.85; }
 
-/* Dropdown list */
 .lang-dropdown {
   display: none;
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.04);
   overflow: hidden;
   min-width: 72px;
 }
@@ -91,13 +87,11 @@ body {
   cursor: pointer;
   transition: background 0.12s;
 }
-.lang-option:hover   { background: #F5F5F5; }
-.lang-option.active  { color: #E07840; }
+.lang-option:hover  { background: #FDF2E4; }
+.lang-option.active { color: #E07840; }
 
 /* ══════════════════════════════════════════════════════════
    SCREEN 1 · CONNECT  —  5 cols × 11 rows grid
-   Cols A B C D E  →  grid-column 1 2 3 4 5
-   Rows 1 … 11    →  grid-row    1 … 11
 ══════════════════════════════════════════════════════════ */
 .screen-connect {
   display: grid;
@@ -115,14 +109,15 @@ body {
   font-weight: 700;
   font-size: 45px;
   line-height: 1;
-  background: linear-gradient(135deg, #F3966F, #E07840);
+  background: linear-gradient(135deg, #F7A882 0%, #E07840 55%, #C85828 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding-bottom: 0.05em;   /* keep descenders visible */
+  padding-bottom: 0.05em;
+  filter: drop-shadow(0 2px 6px rgba(224,120,64,0.20));
 }
 
-/* 3B-5D — pig area (3 cols × 3 rows = ~234 × 230 px on 390/844) */
+/* 3B-5D — pig area */
 .c-pig {
   grid-column: 2 / 5;
   grid-row: 3 / 6;
@@ -131,11 +126,17 @@ body {
   justify-content: center;
 }
 
-/* Piglet base: Diamond (×1.4) fills the ~230 px area → 230/1.4 ≈ 164 px */
+/* pig on static screens (connect / buy) — gently floating */
 .pig-static {
   width:  164px;
   height: 164px;
   object-fit: contain;
+  animation: pigFloat 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 10px 22px rgba(180,90,40,0.22));
+}
+@keyframes pigFloat {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-10px); }
 }
 
 /* 6B-6D — subtitle */
@@ -147,12 +148,12 @@ body {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 20px;
-  color: #1C1C1C;
+  color: #5A3A28;
   text-align: center;
   line-height: 1.45;
 }
 
-/* Row 10, B-D — Connect Wallet button */
+/* Row 10, B-D — Connect Wallet / Buy Pig button */
 .c-btn {
   grid-column: 2 / 5;
   grid-row: 10;
@@ -163,29 +164,28 @@ body {
   font-size: 25px;
   letter-spacing: 0.4px;
   color: #fff;
-  background: #E07840;
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
   border: none;
   border-radius: 50px;
   height: 56px;
   cursor: pointer;
   transition: opacity 0.15s, transform 0.1s;
-  box-shadow: 0 4px 16px rgba(224,120,64,0.35);
+  box-shadow: 0 6px 22px rgba(216,104,40,0.50), inset 0 1px 0 rgba(255,255,255,0.22);
 }
-.c-btn:hover  { opacity: 0.88; }
+.c-btn:hover  { opacity: 0.90; }
 .c-btn:active { transform: scale(0.97); }
-.c-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+.c-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
 
 /* ══════════════════════════════════════════════════════════
-   SCREEN 2 · BUY PIG — same 5×11 grid as connect screen
+   SCREEN 2 · BUY PIG — same 5×11 grid
 ══════════════════════════════════════════════════════════ */
 .screen-buy {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  /* rows 8-9 each +0.25fr (= +0.5 grid total), taken from row 7 gap */
   grid-template-rows: repeat(11, 1fr);
 }
 
-/* 6B-6D: rank badge (pink pill, white caps) */
+/* 6B-6D: rank badge on buy screen */
 .b-rank {
   grid-column: 2 / 5;
   grid-row: 6;
@@ -196,17 +196,18 @@ body {
   font-size: 18px;
   letter-spacing: 1px;
   color: #fff;
-  background: #F08070;
+  background: linear-gradient(135deg, #F59A85, #E06848);
   border-radius: 50px;
   padding: 0.3rem 1.6rem;
+  box-shadow: 0 3px 12px rgba(224,104,72,0.35);
 }
 
-/* 7B-9D: mode toggle area — each child pinned to fixed position */
+/* 7B-9D: mode toggle area */
 .b-mode {
   grid-column: 2 / 5;
   grid-row: 7 / 10;
   display: grid;
-  grid-template-rows: auto auto auto;   /* toggle | desc | input */
+  grid-template-rows: auto auto auto;
   align-content: space-around;
   align-items: center;
   justify-items: center;
@@ -214,14 +215,14 @@ body {
   padding: 0.4rem 0;
 }
 
-/* Normal / With Goal toggle buttons — row 1 of b-mode */
 .b-mode-btns {
   width: 100%;
   display: flex;
-  background: rgba(0,0,0,0.07);
-  border-radius: 12px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 14px;
   padding: 0.2rem;
   gap: 0.25rem;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.09);
 }
 .b-mode-btn {
   flex: 1;
@@ -231,30 +232,29 @@ body {
   padding: 0.48rem 0;
   text-align: center;
   border: none;
-  border-radius: 10px;
+  border-radius: 11px;
   background: transparent;
   color: #999;
   cursor: pointer;
   transition: all 0.2s;
 }
-.b-mode-btn.active { background: #E07840; color: #fff; }
+.b-mode-btn.active {
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(216,104,40,0.38);
+}
 
-/* Description — row 2 of b-mode, always same position */
 .b-mode-desc {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 0.82rem;
-  color: #1C1C1C;
+  color: #5A3A28;
   text-align: center;
   line-height: 1.4;
   width: 100%;
 }
 
-/* Goal input — row 3 of b-mode, always reserves space */
-#goalInputWrap {
-  width: 100%;
-}
-/* Override global .hidden: keep layout space, just invisible */
+#goalInputWrap { width: 100%; }
 #goalInputWrap.hidden {
   display: block !important;
   visibility: hidden;
@@ -263,19 +263,20 @@ body {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-size: 16px;
   padding: 0.5rem 1rem;
-  border: 1.5px solid rgba(0,0,0,0.15);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.6);
+  border: 1.5px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.80);
   color: #1C1C1C;
   width: 100%;
   text-align: center;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-.goal-input::placeholder { color: #bbb; }
-.goal-input:focus { border-color: #E07840; }
+.goal-input::placeholder { color: #C8A898; }
+.goal-input:focus { border-color: #E07840; box-shadow: 0 0 0 3px rgba(224,120,64,0.15); }
 
-/* row 11: wallet address + disconnect — hugs the button above */
+/* row 11: wallet + disconnect */
 .b-wallet {
   grid-column: 2 / 5;
   grid-row: 11;
@@ -287,35 +288,28 @@ body {
   padding-top: 0.55rem;
 }
 
-/* ── Wallet row (buy + app screens) ────────────────────── */
-.wallet-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  flex-shrink: 0;
-}
+/* ── Wallet label + disconnect button (shared) ──────────── */
 .wallet-label {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-size: 0.75rem;
-  color: #999;
+  color: #B08870;
 }
 .btn-disconnect {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 0.72rem;
   padding: 0.22rem 0.65rem;
-  border: 1.5px solid rgba(0,0,0,0.15);
+  border: 1.5px solid rgba(0,0,0,0.12);
   border-radius: 20px;
-  background: transparent;
-  color: #999;
+  background: rgba(255,255,255,0.55);
+  color: #B08870;
   cursor: pointer;
   transition: all 0.15s;
 }
-.btn-disconnect:hover { border-color: #E07840; color: #E07840; }
+.btn-disconnect:hover { border-color: #E07840; color: #E07840; background: rgba(255,255,255,0.85); }
 
 /* ══════════════════════════════════════════════════════════
-   SCREEN 3 · MAIN APP — 5×11 grid (same as connect / buy)
+   SCREEN 3 · MAIN APP — 5×11 grid
 ══════════════════════════════════════════════════════════ */
 .screen-app {
   display: grid;
@@ -323,7 +317,7 @@ body {
   grid-template-rows: repeat(11, 1fr);
 }
 
-/* 2B-2D: deposit count — "Saved  15  times" */
+/* 2B-2D: deposit count */
 .a-stats {
   grid-column: 2 / 5;
   grid-row: 2;
@@ -340,18 +334,23 @@ body {
 .stat-big {
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
-  font-size: 45px;         /* same size as PigSave title */
+  font-size: 45px;
   line-height: 1;
-  color: #E07840;          /* orange, stands out */
+  background: linear-gradient(135deg, #F7A882 0%, #E07840 55%, #C85828 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 0.05em;
+  filter: drop-shadow(0 2px 6px rgba(224,120,64,0.20));
 }
 .stat-unit {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 0.9rem;
-  color: #1C1C1C;
+  color: #5A3A28;
 }
 
-/* 3B-5D: pig — always z-index 60 so it floats above modal dim */
+/* 3B-5D: pig — z-index 60 so it floats above modal dim */
 .a-pig {
   grid-column: 2 / 5;
   grid-row: 3 / 6;
@@ -372,6 +371,7 @@ body {
   width: auto;
   object-fit: contain;
   display: block;
+  filter: drop-shadow(0 8px 20px rgba(160,80,30,0.22));
 }
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
@@ -380,7 +380,7 @@ body {
 }
 .bounce { animation: bounce 0.5s ease; }
 
-/* 6B-6D: rank badge — solid pill, white allcap text */
+/* 6B-6D: rank badge */
 .a-rank {
   grid-column: 2 / 5;
   grid-row: 6;
@@ -393,16 +393,16 @@ body {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #fff;
-  background: #F08070;
+  background: linear-gradient(135deg, #F59A85, #E06848);
   border-radius: 50px;
   padding: 0.3rem 1.6rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.18);
 }
-/* rank colour overrides */
-.rank-piglet      { background: #F08070; }
-.rank-golden-pig  { background: #D4920A; }
-.rank-diamond-pig { background: #3ABBE0; }
+.rank-piglet      { background: linear-gradient(135deg, #F59A85, #E06848); }
+.rank-golden-pig  { background: linear-gradient(135deg, #F0C040, #C07818); }
+.rank-diamond-pig { background: linear-gradient(135deg, #60D8F0, #1898C0); }
 
-/* 7B-7D: progress bar — hugs top of row, close to rank badge above */
+/* 7B-7D: progress bar */
 .a-progress {
   grid-column: 2 / 5;
   grid-row: 7;
@@ -416,22 +416,28 @@ body {
 }
 .progress-track {
   width: 100%;
-  height: 8px;
-  background: rgba(0,0,0,0.1);
+  height: 10px;
+  background: rgba(0,0,0,0.08);
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.10);
 }
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #F3966F, #E07840);
+  background: linear-gradient(90deg, #F5AA7A, #E07840, #C85828);
   border-radius: 10px;
   transition: width 0.45s ease;
+  box-shadow: 0 0 10px rgba(224,120,64,0.50);
 }
-.goal-fill { background: linear-gradient(90deg, #E07840, #F3966F); }
+.goal-fill {
+  background: linear-gradient(90deg, #C85828, #E07840, #F5AA7A);
+  box-shadow: 0 0 10px rgba(224,120,64,0.50);
+}
 .progress-label {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-size: 0.72rem;
-  color: #1C1C1C;
+  color: #8A5840;
+  font-weight: 500;
 }
 
 /* 9B-9D: deposit buttons */
@@ -449,14 +455,21 @@ body {
   font-size: 1rem;
   padding: 0.65rem 0;
   text-align: center;
-  border: 1.5px solid rgba(0,0,0,0.18);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.55);
-  color: #1C1C1C;
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.72);
+  color: #3A2018;
   cursor: pointer;
   transition: all 0.15s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  backdrop-filter: blur(6px);
 }
-.btn-deposit:hover  { border-color: #E07840; color: #E07840; background: rgba(255,255,255,0.8); }
+.btn-deposit:hover {
+  border-color: #E07840;
+  color: #E07840;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 4px 14px rgba(224,120,64,0.20);
+}
 .btn-deposit:active { transform: scale(0.96); }
 .btn-deposit:disabled { opacity: 0.4; cursor: default; transform: none; }
 
@@ -467,20 +480,19 @@ body {
   font-size: 25px;
   padding: 0.65rem 0;
   text-align: center;
-  background: #E07840;
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
   color: #fff;
   border: none;
   border-radius: 50px;
   height: 56px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(224,120,64,0.35);
+  box-shadow: 0 6px 22px rgba(216,104,40,0.50), inset 0 1px 0 rgba(255,255,255,0.22);
   transition: transform 0.15s, opacity 0.15s;
 }
-.btn-break:hover  { opacity: 0.88; }
+.btn-break:hover  { opacity: 0.90; }
 .btn-break:active { transform: scale(0.97); }
-.btn-break:disabled { opacity: 0.4; cursor: default; transform: none; }
+.btn-break:disabled { opacity: 0.40; cursor: default; transform: none; }
 
-/* grid placement for the break button */
 .a-break {
   grid-column: 2 / 5;
   grid-row: 10;
@@ -502,45 +514,40 @@ body {
 
 /* ══════════════════════════════════════════════════════════
    MODAL
-   Overlay dims the whole screen (z-index 50).
-   Pig is at z-index 60 → stays sharp through the dim.
-   modal-box at z-index 55, anchored near bottom so
-   action buttons land around row 9.
 ══════════════════════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.38);
+  background: rgba(60,25,10,0.45);
   z-index: 50;
   display: flex;
-  align-items: flex-end;        /* anchor to bottom */
+  align-items: flex-end;
   justify-content: center;
-  padding-bottom: calc(100dvh * 2 / 11);  /* leave ~2 rows from bottom → buttons at row 9 */
+  padding-bottom: calc(100dvh * 2 / 11);
 }
 .modal-box {
   position: relative;
   z-index: 55;
-  background: #fff;
-  border-radius: 20px 20px 20px 20px;
+  background: #FFFAF5;
+  border-radius: 24px;
   padding: 1.5rem 1.5rem 1.25rem;
   width: calc(min(390px, 100vw) - 3rem);
   text-align: center;
-  box-shadow: 0 -4px 40px rgba(0,0,0,0.14);
+  box-shadow: 0 -4px 50px rgba(60,25,10,0.18), 0 0 0 1px rgba(255,255,255,0.6);
 }
 .modal-box h2 {
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
-  font-size: 1.25rem;
-  color: #C04060;
+  font-size: 1.3rem;
+  color: #C03858;
   margin-bottom: 0.5rem;
 }
-/* success state: title turns positive */
 .modal-overlay.success .modal-box h2 { color: #E07840; }
 
 .modal-body {
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-size: 0.88rem;
-  color: #444;
+  color: #5A3828;
   white-space: pre-line;
   line-height: 1.65;
 }
@@ -553,23 +560,22 @@ body {
 }
 .modal-actions { display: flex; gap: 0.55rem; }
 
-/* Keep Saving — orange pill (positive action) */
 .btn-keep {
   flex: 1;
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   padding: 0.7rem 0.4rem;
-  background: #E07840;
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
   color: #fff;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   transition: opacity 0.15s;
+  box-shadow: 0 4px 14px rgba(216,104,40,0.40);
 }
 .btn-keep:hover { opacity: 0.88; }
 
-/* Break It — white with gray border (default: warning) */
 .btn-break-modal {
   flex: 1;
   font-family: 'Barlow Condensed', 'Barlow', sans-serif;
@@ -578,25 +584,27 @@ body {
   padding: 0.7rem 0.4rem;
   background: #fff;
   color: #666;
-  border: 1.5px solid #ccc;
+  border: 1.5px solid #ddd;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.15s;
 }
-.btn-break-modal:hover { border-color: #999; color: #333; }
-/* success state: Break It = orange, Keep Saving = white/gray */
+.btn-break-modal:hover { border-color: #aaa; color: #333; background: #f8f8f8; }
+
 .modal-overlay.success .btn-break-modal {
-  background: #E07840;
+  background: linear-gradient(180deg, #F09050 0%, #D86828 100%);
   color: #fff;
-  border-color: #E07840;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(216,104,40,0.40);
 }
 .modal-overlay.success .btn-break-modal:hover { opacity: 0.88; }
 .modal-overlay.success .btn-keep {
   background: #fff;
-  color: #333;
-  border: 1.5px solid #ccc;
+  color: #444;
+  border: 1.5px solid #ddd;
+  box-shadow: none;
 }
-.modal-overlay.success .btn-keep:hover { background: #f5f5f5; }
+.modal-overlay.success .btn-keep:hover { background: #f8f8f8; }
 
 /* ══════════════════════════════════════════════════════════
    TOAST
@@ -604,11 +612,13 @@ body {
 .toast {
   position: fixed; bottom: 2rem; left: 50%;
   transform: translateX(-50%);
-  background: #1C1C1C; color: #fff;
+  background: rgba(30,15,5,0.88);
+  backdrop-filter: blur(8px);
+  color: #fff;
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-size: 1rem; font-weight: 500;
   padding: 0.75rem 1.6rem; border-radius: 24px;
   white-space: nowrap; max-width: calc(100% - 2rem);
   text-align: center; z-index: 200;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
 }
