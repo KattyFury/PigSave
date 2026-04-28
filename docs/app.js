@@ -698,14 +698,14 @@ async function executeWithdraw() {
     const tx = await pigSaveContract.withdraw();
     await tx.wait();
 
-    // Reset local state and go back to buy pig screen
+    // Show success notification while still on app screen, then transition
     userData = { balance: 0n, depositCount: 0n, mode: 0, goalAmount: 0n, hasPig: false };
-    showScreen("buySection");
-    showToast(t("withdrawOk")); // toast: already on buy screen
-
-    // Reset buy screen to default state
-    selectMode("normal");
-    document.getElementById("goalInput").value = "";
+    showStatus(t("withdrawOk"));
+    setTimeout(() => {
+      showScreen("buySection");
+      selectMode("normal");
+      document.getElementById("goalInput").value = "";
+    }, 1800);
   } catch (err) {
     console.error(err);
     showStatus(t("txFailed"));

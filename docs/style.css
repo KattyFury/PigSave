@@ -495,22 +495,23 @@ body {
 .a-stats-row .stat-unit:first-child { text-align: right; }
 .a-stats-row .stat-unit:last-child  { text-align: left; }
 
-/* status line — dark pill, 20px gap below the number, fades in/out */
+/* status line — dark pill sized to text, 20px gap below the number */
 .a-status {
   min-height: 1.75rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  max-width: 85%;
   margin-top: 20px;
   font-family: 'Roboto Condensed', 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 0.84rem;
   letter-spacing: 0.1px;
+  white-space: nowrap;
   color: transparent;
   background: transparent;
   border-radius: 20px;
-  padding: 0.25rem 1rem;
+  padding: 0.25rem 1.1rem;
   transition: color 0.22s, background 0.22s;
   pointer-events: none;
 }
