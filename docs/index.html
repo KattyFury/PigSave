@@ -37,9 +37,9 @@
 
     <!-- row 7, a-d: intro text -->
     <p class="c-sub"
-       data-vi="Heo tiết kiệm on-chain giúp việc để dành trở nên có chủ đích"
-       data-en="On-chain piggy bank designed to make saving feel intentional"
-       data-zh="链上存钱罐，让每一次存钱都充满意义">On-chain piggy bank designed to make saving feel intentional</p>
+       data-vi="Tiết kiệm là thói quen tốt. Hãy làm điều đó trên chuỗi."
+       data-en="Saving is a good habit. Let's bring it on-chain."
+       data-zh="储蓄是个好习惯，让我们把它搬上链。">Saving is a good habit. Let's bring it on-chain.</p>
 
     <!-- row 8, a-d: connect button -->
     <button class="c-btn" onclick="connectWallet()">
@@ -122,9 +122,9 @@
     <!-- row 9 b-e: description text + goal input -->
     <div class="b-desc-row">
       <p id="modeDesc" class="b-mode-desc"
-         data-vi="Bỏ heo ít nhất 30 lần → lấy lại 1 USDC"
-         data-en="Save at least 30 times → get your 1 USDC back"
-         data-zh="至少存30次 → 退回1 USDC">Save at least 30 times → get your 1 USDC back</p>
+         data-vi="Bỏ heo ít nhất 30 lần và lấy lại 1 USDC"
+         data-en="Save at least 30 times and get your 1 USDC back"
+         data-zh="至少存30次，即可退回1 USDC">Save at least 30 times and get your 1 USDC back</p>
       <div id="goalInputWrap" class="hidden">
         <input id="goalInput" type="number" min="1" step="1"
                placeholder="Goal amount (USDC)" class="goal-input" />
@@ -187,11 +187,14 @@
       <div class="b-wallet-balance" id="appWalletBalance">– USDC</div>
     </div>
 
-    <!-- row 2 a-d: "Saved N times" — bottom of row, sits at row 2/3 boundary -->
+    <!-- row 2 a-d: "Saved N times" + status line below -->
     <div class="a-stats">
-      <span class="stat-unit" data-vi="Đã bỏ" data-en="Saved" data-zh="已存">Saved</span>
-      <span class="stat-big" id="depositCount">0</span>
-      <span class="stat-unit" data-vi="lần" data-en="times" data-zh="次">times</span>
+      <div class="a-stats-row">
+        <span class="stat-unit" data-vi="Đã bỏ" data-en="Saved" data-zh="已存">Saved</span>
+        <span class="stat-big" id="depositCount">0</span>
+        <span class="stat-unit" data-vi="lần" data-en="times" data-zh="次">times</span>
+      </div>
+      <p id="appStatus" class="a-status"></p>
     </div>
 
     <!-- rows 3-6 b-c: pig (dims under modal overlay — no z-index override) -->
@@ -257,6 +260,15 @@
         <span data-vi="Đập luôn" data-en="Break It" data-zh="打碎">Break It</span>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Info Panel (About PigSave / Trust & Security / Deposit History) -->
+<div id="infoPanel" class="info-panel-overlay hidden" onclick="handleInfoPanelClick(event)">
+  <div class="info-panel-box">
+    <button class="info-panel-close" onclick="closeInfoPanel()">✕</button>
+    <h2 id="infoPanelTitle" class="info-panel-title"></h2>
+    <div id="infoPanelContent" class="info-panel-content"></div>
   </div>
 </div>
 

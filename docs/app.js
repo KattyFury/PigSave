@@ -175,27 +175,168 @@ function toggleAppMenu() {
   document.getElementById("appMenuDropdown").classList.toggle("hidden");
 }
 
-const MENU_INFO = {
-  history: {
-    en: "No deposits recorded yet. Buy a pig and start saving!",
-    vi: "Chưa có giao dịch nào. Mua heo và bắt đầu tiết kiệm!",
-    zh: "暂无存款记录，购买小猪开始存钱吧！"
+// ── Info panel content ─────────────────────────────────────
+const INFO_PANELS = {
+  about: {
+    en: {
+      title: "About PigSave",
+      body: `<p>If blockchain becomes part of everyday life, everyday financial habits might also need an on-chain version.</p>
+<p>PigSave was built around an idea: a piggy bank for on-chain income — from salary and yield to small daily payments.</p>
+<p><strong>How it works</strong></p>
+<p>Mint a pig with 1 USDC (a refundable deposit, not a fee), then choose:<br>– Normal Mode: save 30 times and get your 1 USDC back.<br>– Goal Mode: reach your saving goal and get your 1 USDC back.</p>
+<p>The 1 USDC acts as a commitment mechanism to encourage discipline and prevent breaking the pig too early.</p>
+<p>Funds are held in a smart contract, not by any third party.</p>
+<p>Break the pig at any time to withdraw savings, and get your 1 USDC back if you meet the conditions.</p>
+<p><em>Future idea: funds inside the pig could be used for safe yield farming, though risks need to be carefully weighed.</em></p>`
+    },
+    vi: {
+      title: "PigSave: Heo đất on-Arc",
+      body: `<p>Nếu blockchain trở thành một phần của cuộc sống hàng ngày, các thói quen tài chính hàng ngày cũng có thể cần phiên bản trên chuỗi.</p>
+<p>PigSave sinh ra vì ý tưởng: một heo đất cho thu nhập trên chuỗi, từ lương và lợi suất đến các khoản thanh toán nhỏ hàng ngày.</p>
+<p><strong>Cách thức hoạt động</strong></p>
+<p>Đúc một con heo với 1 USDC (một khoản đặt cọc có thể hoàn lại, không phải phí), sau đó chọn:<br>– Chế độ Thường: tiết kiệm 30 lần và nhận lại 1 USDC.<br>– Chế độ Mục tiêu: đạt được mục tiêu tiết kiệm và nhận lại 1 USDC.</p>
+<p>1 USDC đóng vai trò như một cơ chế cam kết để khuyến khích kỷ luật và ngăn chặn việc đập heo quá sớm.</p>
+<p>Quỹ được giữ trong hợp đồng thông minh, không phải bởi bất kỳ bên thứ ba nào.</p>
+<p>Đập heo bất cứ lúc nào để rút tiết kiệm, và nhận lại 1 USDC nếu đáp ứng điều kiện.</p>
+<p><em>Ý tưởng tương lai: quỹ trong heo có thể được sử dụng cho việc canh tác lợi suất an toàn, mặc dù rủi ro cần được cân nhắc kỹ lưỡng.</em></p>`
+    },
+    zh: {
+      title: "关于 PigSave",
+      body: `<p>如果区块链成为日常生活的一部分，日常财务习惯也可能需要一个链上版本。</p>
+<p>PigSave 源于一个想法：为链上收入打造一个存钱罐——从薪资和收益到日常小额支付。</p>
+<p><strong>使用方式</strong></p>
+<p>用 1 USDC 铸造一只小猪（可退还的押金，非手续费），然后选择：<br>– 普通模式：存满 30 次，取回 1 USDC。<br>– 目标模式：达成存钱目标，取回 1 USDC。</p>
+<p>1 USDC 作为承诺机制，鼓励自律，防止过早打碎存钱罐。</p>
+<p>资金由智能合约持有，不经任何第三方。</p>
+<p>随时打碎存钱罐以提取存款，满足条件即可取回 1 USDC。</p>
+<p><em>未来设想：存钱罐内的资金可用于安全的收益耕作，但风险需仔细权衡。</em></p>`
+    }
   },
   security: {
-    en: "PigSave is a non-custodial smart contract on Arc Testnet.\nYour funds are locked in the contract — only you can withdraw them.\nContract: 0x23A6...E720",
-    vi: "PigSave là hợp đồng thông minh không lưu ký trên Arc Testnet.\nTài sản của bạn được khóa trong hợp đồng — chỉ bạn mới có thể rút.\nHợp đồng: 0x23A6...E720",
-    zh: "PigSave 是 Arc 测试网上的非托管智能合约。\n您的资金锁定在合约中，只有您可以提取。\n合约地址：0x23A6...E720"
-  },
-  about: {
-    en: "PigSave is an on-chain piggy bank that makes saving feel intentional.\nBuy a pig for 1 USDC · deposit savings · break the bank when ready.\nMeet your goal → get your 1 USDC back.",
-    vi: "PigSave là heo tiết kiệm on-chain giúp việc để dành trở nên có chủ đích.\nMua heo 1 USDC · bỏ tiền vào · đập heo khi sẵn sàng.\nHoàn thành mục tiêu → lấy lại 1 USDC.",
-    zh: "PigSave 是让存钱充满意义的链上存钱罐。\n花1 USDC买小猪 · 存入储蓄 · 准备好时打碎存钱罐。\n达成目标 → 退回1 USDC。"
+    en: {
+      title: "Trust & Security",
+      body: `<p>Your funds are held in a smart contract — not by PigSave or any third party.</p>
+<p>The contract is simple, minimal, and open source. Only you — the wallet that bought the pig — can withdraw the funds.</p>
+<p>Source code: <a href="https://github.com/KattyFury/pigsave" target="_blank" rel="noopener">github.com/KattyFury/pigsave</a></p>
+<p>Contract on Arc Testnet:<br><code>0x23A698adB00f7807E48a8df772535493707dE720</code></p>
+<p>PigSave has no access to your funds and cannot stop your withdrawal.</p>
+<p><em>Note: Currently running on Arc Testnet. Do not use real funds.</em></p>`
+    },
+    vi: {
+      title: "An toàn & Bảo mật",
+      body: `<p>Tiền của bạn được giữ trong hợp đồng thông minh — không phải bởi PigSave hay bất kỳ bên thứ ba nào.</p>
+<p>Hợp đồng được thiết kế đơn giản, tối thiểu và mã nguồn mở. Chỉ bạn — ví đã mua heo — mới có thể rút tiền.</p>
+<p>Mã nguồn: <a href="https://github.com/KattyFury/pigsave" target="_blank" rel="noopener">github.com/KattyFury/pigsave</a></p>
+<p>Địa chỉ hợp đồng trên Arc Testnet:<br><code>0x23A698adB00f7807E48a8df772535493707dE720</code></p>
+<p>PigSave không có quyền truy cập vào tiền của bạn và không thể dừng giao dịch rút của bạn.</p>
+<p><em>Lưu ý: Hiện đang chạy trên Arc Testnet. Không dùng tiền thật.</em></p>`
+    },
+    zh: {
+      title: "信任与安全",
+      body: `<p>您的资金由智能合约持有——不经 PigSave 或任何第三方。</p>
+<p>合约设计简洁、最小化且开源。只有您——购买小猪的钱包——才能提取资金。</p>
+<p>源代码：<a href="https://github.com/KattyFury/pigsave" target="_blank" rel="noopener">github.com/KattyFury/pigsave</a></p>
+<p>Arc 测试网合约地址：<br><code>0x23A698adB00f7807E48a8df772535493707dE720</code></p>
+<p>PigSave 无法访问您的资金，也无法阻止您的提款。</p>
+<p><em>注意：目前运行在 Arc 测试网上，请勿使用真实资金。</em></p>`
+    }
   }
 };
 
 function menuAction(key) {
   document.querySelectorAll(".b-menu-dropdown").forEach(d => d.classList.add("hidden"));
-  showToast(MENU_INFO[key][currentLang] ?? MENU_INFO[key].en);
+  openInfoPanel(key);
+}
+
+async function openInfoPanel(key) {
+  const panel   = document.getElementById("infoPanel");
+  const titleEl = document.getElementById("infoPanelTitle");
+  const bodyEl  = document.getElementById("infoPanelContent");
+
+  if (key === "history") {
+    const titles = { en: "Deposit History", vi: "Lịch sử giao dịch", zh: "存款记录" };
+    titleEl.textContent = titles[currentLang] || titles.en;
+    bodyEl.innerHTML    = "";
+    panel.classList.remove("hidden");
+    await loadDepositHistory(bodyEl);
+  } else {
+    const info = (INFO_PANELS[key] || {})[currentLang] || (INFO_PANELS[key] || {}).en;
+    if (!info) return;
+    titleEl.textContent = info.title;
+    bodyEl.innerHTML    = info.body;
+    panel.classList.remove("hidden");
+  }
+}
+
+function closeInfoPanel() {
+  document.getElementById("infoPanel").classList.add("hidden");
+}
+
+function handleInfoPanelClick(e) {
+  if (!e.target.closest(".info-panel-box")) closeInfoPanel();
+}
+
+async function loadDepositHistory(el) {
+  const L = {
+    loading:    { en: "Loading history…",             vi: "Đang tải lịch sử…",          zh: "加载中…" },
+    empty:      { en: "No deposits found.",            vi: "Chưa có giao dịch nào.",      zh: "暂无存款记录。" },
+    viewOnScan: { en: "View full history on Arc Scan", vi: "Xem lịch sử trên Arc Scan",   zh: "在 Arc Scan 查看记录" }
+  };
+  const lang = currentLang;
+  const g    = k => L[k][lang] || L[k].en;
+
+  el.innerHTML = `<p class="history-loading">${g("loading")}</p>`;
+
+  if (!userAddress) {
+    el.innerHTML = `<p class="history-empty">${g("empty")}</p>`;
+    return;
+  }
+
+  try {
+    const apiUrl = `https://testnet.arcscan.app/api?module=account&action=txlist&address=${userAddress}&sort=desc&page=1&offset=50`;
+    const ctrl   = new AbortController();
+    const tid    = setTimeout(() => ctrl.abort(), 8000);
+    const res    = await fetch(apiUrl, { signal: ctrl.signal });
+    clearTimeout(tid);
+    const data = await res.json();
+
+    if (data.status !== "1" || !Array.isArray(data.result)) throw new Error("bad");
+
+    const txs = data.result.filter(tx =>
+      tx.to?.toLowerCase() === CONTRACT_ADDRESS.toLowerCase() &&
+      tx.isError === "0" &&
+      BigInt(tx.value || "0") > 0n
+    );
+
+    if (txs.length === 0) {
+      el.innerHTML = `<p class="history-empty">${g("empty")}</p>`;
+      return;
+    }
+
+    const rows = txs.map(tx => {
+      const ts     = new Date(parseInt(tx.timeStamp) * 1000);
+      const date   = ts.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+      const time   = ts.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+      const amount = parseFloat(ethers.formatUnits(tx.value, 18)).toFixed(2);
+      const url    = `https://testnet.arcscan.app/tx/${tx.hash}`;
+      const hash   = tx.hash.slice(0, 8) + "…";
+      return `<div class="history-item">
+        <div>
+          <div class="history-amount">+${amount} USDC</div>
+          <div class="history-date">${date} ${time}</div>
+        </div>
+        <a class="history-tx" href="${url}" target="_blank" rel="noopener">${hash}</a>
+      </div>`;
+    }).join("");
+
+    const scanUrl = `https://testnet.arcscan.app/address/${userAddress}`;
+    el.innerHTML  = `<div class="history-list">${rows}</div>
+      <p class="history-footer"><a class="history-link" href="${scanUrl}" target="_blank" rel="noopener">${g("viewOnScan")} ↗</a></p>`;
+
+  } catch {
+    const scanUrl = `https://testnet.arcscan.app/address/${userAddress}`;
+    el.innerHTML  = `<p class="history-fallback"><a class="history-link" href="${scanUrl}" target="_blank" rel="noopener">${g("viewOnScan")} ↗</a></p>`;
+  }
 }
 
 function applyLang() {
@@ -214,12 +355,12 @@ function showScreen(id) {
 
 // ── Mode selection (on buy screen) ────────────────────────
 const MODE_DESC = {
-  normal:  { vi: "Bỏ heo ít nhất 30 lần → lấy lại 1 USDC",
-             en: "Save at least 30 times → get your 1 USDC back",
-             zh: "至少存30次 → 退回1 USDC" },
-  purpose: { vi: "Đạt mục tiêu tiết kiệm → lấy lại 1 USDC",
-             en: "Reach your saving goal → get your 1 USDC back",
-             zh: "达成目标 → 退回1 USDC" }
+  normal:  { vi: "Bỏ heo ít nhất 30 lần và lấy lại 1 USDC",
+             en: "Save at least 30 times and get your 1 USDC back",
+             zh: "至少存30次，即可退回1 USDC" },
+  purpose: { vi: "Đạt mục tiêu tiết kiệm và lấy lại 1 USDC",
+             en: "Reach your saving goal and get your 1 USDC back",
+             zh: "达成目标，即可退回1 USDC" }
 };
 
 function selectMode(mode) {
@@ -362,9 +503,10 @@ function updateStats() {
   badge.className   = "a-rank " + rank.cls;
 
   // Progress bars
+  let done = false;
   if (userData.mode === 1) {
     // Normal: always show bar; bright orange + label "30 / 30" when complete
-    const done = count >= 30;
+    done = count >= 30;
     const pct  = Math.min((count / 30) * 100, 100);
     document.getElementById("progressFill").style.width  = pct + "%";
     document.getElementById("progressLabel").textContent = `${count} / 30`;
@@ -373,12 +515,15 @@ function updateStats() {
     // Purpose: how close to goal
     const goalUSD = Number(ethers.formatUnits(userData.goalAmount, 18));
     const pct     = goalUSD > 0 ? Math.min((balUSD / goalUSD) * 100, 100) : 0;
-    const done    = pct >= 100;
+    done = pct >= 100;
     document.getElementById("goalFill").style.width = pct.toFixed(1) + "%";
     document.getElementById("goalFill").classList.toggle("complete", done);
     document.getElementById("goalPct").textContent  =
       pct.toFixed(0) + "% of $" + goalUSD.toLocaleString();
   }
+
+  // Break button glows when condition is met
+  document.querySelector(".btn-break.a-break").classList.toggle("complete", done);
 }
 
 // ── Pig visuals ────────────────────────────────────────────
@@ -443,7 +588,7 @@ async function deposit(usdcAmount) {
 
   setBusy(true);
   try {
-    showToast(t("depositing"));
+    showStatus(t("depositing"));
     setPigVisual("deposit");          // step 1: deposit animation
 
     const tx = await pigSaveContract.deposit({ value: amount });
@@ -460,15 +605,15 @@ async function deposit(usdcAmount) {
     const newCount  = Number(userData.depositCount);
 
     if (newRank !== prevRank) {
-      setTimeout(() => showToast(t("rankUp", newRank)), 1200);
+      setTimeout(() => showStatus(t("rankUp", newRank)), 1200);
     } else {
-      showToast(t("depositOk", newCount));
+      showStatus(t("depositOk", newCount));
     }
 
     setTimeout(() => setPigVisual("normal"), 2200); // step 3: back to normal
   } catch (err) {
     console.error(err);
-    showToast(t("txFailed"));
+    showStatus(t("txFailed"));
     setPigVisual("normal");
   } finally {
     setBusy(false);
@@ -483,7 +628,7 @@ function showModal(isSuccess) {
 }
 
 function tryWithdraw() {
-  if (userData.balance === 0n) { showToast(t("noBalance")); return; }
+  if (userData.balance === 0n) { showStatus(t("noBalance")); return; }
 
   if (userData.mode === 1) {
     // Normal mode
@@ -549,21 +694,21 @@ async function confirmWithdraw() {
 async function executeWithdraw() {
   setBusy(true);
   try {
-    showToast(t("withdrawing"));
+    showStatus(t("withdrawing"));
     const tx = await pigSaveContract.withdraw();
     await tx.wait();
 
     // Reset local state and go back to buy pig screen
     userData = { balance: 0n, depositCount: 0n, mode: 0, goalAmount: 0n, hasPig: false };
-    showToast(t("withdrawOk"));
     showScreen("buySection");
+    showToast(t("withdrawOk")); // toast: already on buy screen
 
     // Reset buy screen to default state
     selectMode("normal");
     document.getElementById("goalInput").value = "";
   } catch (err) {
     console.error(err);
-    showToast(t("txFailed"));
+    showStatus(t("txFailed"));
     setPigVisual("normal");
   } finally {
     setBusy(false);
@@ -584,6 +729,17 @@ function showToast(msg) {
   el.classList.remove("hidden");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.add("hidden"), 3200);
+}
+
+// Status line shown below "Saved N times" on the app screen
+let statusTimer;
+function showStatus(msg) {
+  const el = document.getElementById("appStatus");
+  if (!el) { showToast(msg); return; }
+  el.textContent = msg;
+  el.classList.add("visible");
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => el.classList.remove("visible"), 3200);
 }
 
 // ── MetaMask event listeners ───────────────────────────────
