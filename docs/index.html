@@ -139,37 +139,72 @@
   </div>
 
   <!-- ══ SCREEN 3 · Main App ═══════════════════════════════ -->
-  <!-- 5×11 grid: same system as connect / buy screens -->
+  <!-- 4×12 grid: mirrors buy/connect screens for visual consistency -->
   <div id="appSection" class="screen screen-app hidden">
 
-    <!-- 1E: lang pill -->
-    <div class="lang-selector">
-      <button class="lang-pill" onclick="toggleLangMenu()">EN</button>
-      <div class="lang-dropdown">
-        <button class="lang-option active" onclick="pickLang('en')">EN</button>
-        <button class="lang-option"        onclick="pickLang('vi')">VI</button>
-        <button class="lang-option"        onclick="pickLang('zh')">CN</button>
+    <!-- row 1 a-d: header — identical structure to buy screen -->
+    <div class="b-header">
+      <span class="b-logo">PigSave</span>
+      <div class="b-header-right">
+        <div class="lang-selector">
+          <button class="lang-pill" onclick="toggleLangMenu()">EN</button>
+          <div class="lang-dropdown">
+            <button class="lang-option active" onclick="pickLang('en')">EN</button>
+            <button class="lang-option"        onclick="pickLang('vi')">VI</button>
+            <button class="lang-option"        onclick="pickLang('zh')">CN</button>
+          </div>
+        </div>
+        <div class="b-menu-wrap">
+          <button class="b-menu-btn" onclick="toggleAppMenu()">
+            <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+              <rect y="0"    width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+              <rect y="6.75" width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+              <rect y="13.5" width="22" height="2.5" rx="1.25" fill="#5A3A28"/>
+            </svg>
+          </button>
+          <div class="b-menu-dropdown hidden" id="appMenuDropdown">
+            <button class="b-menu-item" onclick="menuAction('history')">
+              <span data-vi="Lịch sử giao dịch" data-en="Deposit History" data-zh="存款记录">Deposit History</span>
+            </button>
+            <button class="b-menu-item" onclick="menuAction('security')">
+              <span data-vi="An toàn &amp; Bảo mật" data-en="Trust &amp; Security" data-zh="信任与安全">Trust &amp; Security</span>
+            </button>
+            <button class="b-menu-item" onclick="menuAction('about')">
+              <span data-vi="Về PigSave" data-en="About PigSave" data-zh="关于 PigSave">About PigSave</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- 2B-2D: deposit count — large orange number, small labels each side -->
+    <!-- row 2 c-d: wallet address + balance (top-right) -->
+    <div class="a-wallet-info">
+      <div class="b-wallet-top">
+        <span class="wallet-label" id="walletAddr"></span>
+        <button class="btn-disconnect" onclick="disconnectWallet()"
+                data-vi="Ngắt kết nối" data-en="Disconnect" data-zh="断开连接">Disconnect</button>
+      </div>
+      <div class="b-wallet-balance" id="appWalletBalance">– USDC</div>
+    </div>
+
+    <!-- row 2 a-d: "Saved N times" — bottom of row, sits at row 2/3 boundary -->
     <div class="a-stats">
       <span class="stat-unit" data-vi="Đã bỏ" data-en="Saved" data-zh="已存">Saved</span>
       <span class="stat-big" id="depositCount">0</span>
       <span class="stat-unit" data-vi="lần" data-en="times" data-zh="次">times</span>
     </div>
 
-    <!-- 3B-5D: pig — z-index 60 so it shows above the modal dim overlay -->
+    <!-- rows 3-6 b-c: pig (dims under modal overlay — no z-index override) -->
     <div class="a-pig">
       <div class="pig-scale" id="pigScale">
         <img id="pigImg" src="images/a1.png" class="pig" alt="pig" />
       </div>
     </div>
 
-    <!-- 6B-6D: rank badge -->
+    <!-- row 6 b-c: rank badge (bottom of pig area) -->
     <div id="rankBadge" class="a-rank rank-piglet">Piglet</div>
 
-    <!-- 7B-7D: normal-mode 30-save progress bar (hidden once 30 reached) -->
+    <!-- row 7 a-d: progress bars -->
     <div id="normalProgress" class="a-progress">
       <div class="progress-track">
         <div id="progressFill" class="progress-fill" style="width:0%"></div>
@@ -177,7 +212,6 @@
       <span class="progress-label" id="progressLabel">0 / 30</span>
     </div>
 
-    <!-- 7B-7D: purpose-mode goal progress bar -->
     <div id="purposeProgress" class="a-progress hidden">
       <div class="progress-track">
         <div id="goalFill" class="progress-fill goal-fill" style="width:0%"></div>
@@ -185,24 +219,23 @@
       <span class="progress-label" id="goalPct">0%</span>
     </div>
 
-    <!-- 9B-9D: deposit buttons -->
+    <!-- row 8 a-d: motivational quote -->
+    <p class="a-quote"
+       data-vi="Góp gió thành bão"
+       data-en="Many a little makes a mickle"
+       data-zh="聚沙成塔，集腋成裘">Many a little makes a mickle</p>
+
+    <!-- row 9 a-d: deposit buttons -->
     <div class="a-deposit-row">
       <button class="btn-deposit" onclick="deposit(1)">+1 USDC</button>
       <button class="btn-deposit" onclick="deposit(10)">+10 USDC</button>
       <button class="btn-deposit" onclick="deposit(100)">+100 USDC</button>
     </div>
 
-    <!-- 10B-10D: break button -->
+    <!-- rows 10-11 a-d: break button -->
     <button class="btn-break a-break" onclick="tryWithdraw()">
-      <span data-vi="Đập heo" data-en="Break Piggy Bank" data-zh="打碎存钱罐">Break Piggy Bank</span>
+      <span data-vi="Đập heo" data-en="Break the Pig" data-zh="打碎存钱罐">Break the Pig</span>
     </button>
-
-    <!-- 11B-11D: wallet + disconnect -->
-    <div class="a-wallet">
-      <p class="wallet-label" id="walletAddr"></p>
-      <button class="btn-disconnect" onclick="disconnectWallet()"
-              data-vi="Ngắt kết nối" data-en="Disconnect" data-zh="断开连接">Disconnect</button>
-    </div>
 
   </div>
 </div><!-- /container -->

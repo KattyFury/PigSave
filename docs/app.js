@@ -162,14 +162,17 @@ document.addEventListener("click", e => {
     document.querySelectorAll(".lang-selector").forEach(s => s.classList.remove("open"));
   }
   if (!e.target.closest(".b-menu-wrap")) {
-    const dd = document.getElementById("buyMenuDropdown");
-    if (dd) dd.classList.add("hidden");
+    document.querySelectorAll(".b-menu-dropdown").forEach(d => d.classList.add("hidden"));
   }
 });
 
 // ── Buy screen menu ────────────────────────────────────────
 function toggleBuyMenu() {
   document.getElementById("buyMenuDropdown").classList.toggle("hidden");
+}
+
+function toggleAppMenu() {
+  document.getElementById("appMenuDropdown").classList.toggle("hidden");
 }
 
 const MENU_INFO = {
@@ -191,7 +194,7 @@ const MENU_INFO = {
 };
 
 function menuAction(key) {
-  document.getElementById("buyMenuDropdown").classList.add("hidden");
+  document.querySelectorAll(".b-menu-dropdown").forEach(d => d.classList.add("hidden"));
   showToast(MENU_INFO[key][currentLang] ?? MENU_INFO[key].en);
 }
 
@@ -256,13 +259,8 @@ async function initApp() {
   document.getElementById("walletAddr").textContent    = addrShort;
   document.getElementById("buyWalletAddr").textContent = addrShort;
 
-  // Fetch native balance (USDC on Arc) for buy screen display
-  try {
-    const rawBal = await provider.getBalance(userAddress);
-    const usdcBal = parseFloat(ethers.formatUnits(rawBal, 18)).toFixed(2);
-    const balEl = document.getElementById("buyWalletBalance");
-    if (balEl) balEl.textContent = usdcBal + " USDC";
-  } catch (_) {}
+  // Fetch native balance (USDC on Arc) for buy + app screen display
+  await refreshWalletBalance();
 
   // Check/switch network
   const chainId = await window.ethereum.request({ method: "eth_chainId" });
@@ -272,6 +270,16 @@ async function initApp() {
   }
 
   await refreshData();
+}
+
+async function refreshWalletBalance() {
+  try {
+    const rawBal = await provider.getBalance(userAddress);
+    const usdcBal = parseFloat(ethers.formatUnits(rawBal, 18)).toFixed(2);
+    const label = usdcBal + " USDC";
+    document.querySelectorAll("#buyWalletBalance, #appWalletBalance")
+      .forEach(el => { if (el) el.textContent = label; });
+  } catch (_) {}
 }
 
 async function switchToArc() {
@@ -326,6 +334,7 @@ async function refreshData(skipPigReset = false) {
     document.getElementById("purposeProgress").classList.toggle("hidden",  isNormal);
 
     updateStats();
+    await refreshWalletBalance();
 
     if (!skipPigReset) {
       // Grow pig smoothly from scale 0 when first landing on app screen
@@ -354,19 +363,19 @@ function updateStats() {
 
   // Progress bars
   if (userData.mode === 1) {
-    // Normal: show progress bar only until 30 saves; hide once complete
+    // Normal: always show bar; bright orange + label "30 / 30" when complete
     const done = count >= 30;
-    document.getElementById("normalProgress").classList.toggle("hidden", done);
-    if (!done) {
-      const pct = Math.min((count / 30) * 100, 100);
-      document.getElementById("progressFill").style.width  = pct + "%";
-      document.getElementById("progressLabel").textContent = `${count} / 30`;
-    }
+    const pct  = Math.min((count / 30) * 100, 100);
+    document.getElementById("progressFill").style.width  = pct + "%";
+    document.getElementById("progressLabel").textContent = `${count} / 30`;
+    document.getElementById("progressFill").classList.toggle("complete", done);
   } else {
     // Purpose: how close to goal
     const goalUSD = Number(ethers.formatUnits(userData.goalAmount, 18));
     const pct     = goalUSD > 0 ? Math.min((balUSD / goalUSD) * 100, 100) : 0;
+    const done    = pct >= 100;
     document.getElementById("goalFill").style.width = pct.toFixed(1) + "%";
+    document.getElementById("goalFill").classList.toggle("complete", done);
     document.getElementById("goalPct").textContent  =
       pct.toFixed(0) + "% of $" + goalUSD.toLocaleString();
   }
